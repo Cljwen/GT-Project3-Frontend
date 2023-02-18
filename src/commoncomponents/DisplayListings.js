@@ -35,7 +35,7 @@ export function DisplayListings() {
         key={photo_url}
           hoverable
           style={{
-            width: 300,
+            width: 240,
           }}
           cover={
             <img src={photo_url} />
