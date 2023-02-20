@@ -85,12 +85,11 @@ export default function WelcomePage() {
             mode="horizontal"
             defaultSelectedKeys={['0']}>
             <img height={60} src={logo} alt="logo" />
+
             <Menu.Item key="0">
               <a href="#about">How it works</a>
             </Menu.Item>
-            <Menu.Item key="1">
-              <a href="#press">Press</a>
-            </Menu.Item>
+            <Menu.Item key="1">Press</Menu.Item>
             <Menu.Item key="2">
               <a href="#contact">Contact Us</a>
             </Menu.Item>
@@ -114,8 +113,9 @@ export default function WelcomePage() {
               <p>Your local app for giving and requesting things.</p>
             </div>
           </div>
-          <div className="press">
-            <h2>These are some listings you might be interested in:</h2>
+          <h2 id="about">Here's how it works: </h2>
+          <img className="banner" src={banner} alt="banner" />
+          <h2>These are some listings you might be interested in:</h2>
 
           <Row gutter={16}>
             {listingsReturned.map(
