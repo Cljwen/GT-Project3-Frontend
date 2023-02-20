@@ -1,9 +1,15 @@
 // welcome page with short intro, login and sign up buttons
 import React from 'react';
-import { Layout, Space, Menu, Button, Card, Col, Row, Avatar } from 'antd';
+import { Layout, Space, Menu, Button, Card, Col, Row, Avatar, Carousel } from 'antd';
 import intropage from '../../assets/images/intropage.jpg';
 import logo from '../../assets/images/logo.png';
 import banner from '../../assets/images/banner.png';
+import rocket from '../../assets/images/rocket.png';
+import cloudinary from '../../assets/images/cloudinary.png';
+import postgres from '../../assets/images/postgres.png';
+import sendgrid from '../../assets/images/sendgrid.png';
+import react from '../../assets/images/react.webp';
+import antdesign from '../../assets/images/ant-design.png';
 
 import './welcomepage.css';
 import { MessageOutlined, LikeOutlined } from '@ant-design/icons';
@@ -61,6 +67,18 @@ export default function WelcomePage() {
   }, [user, accessToken]);
   console.log(accessToken);
 
+  const handleSignUp = () => {
+    const redirectUri = 'http://localhost:3001/*/homepage';
+    const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
+    const queryParams = {
+      client_id: clientId,
+      redirect_uri: redirectUri,
+      // response_type: 'code',
+      scope: 'openid profile email',
+      screen_hint: 'signup'
+    };
+  };
+
   return (
     <Space
       direction="vertical"
@@ -76,7 +94,6 @@ export default function WelcomePage() {
             mode="horizontal"
             defaultSelectedKeys={['0']}>
             <img height={60} src={logo} alt="logo" />
-
             <Menu.Item key="0">
               <a href="#about">How it works</a>
             </Menu.Item>
@@ -88,17 +105,11 @@ export default function WelcomePage() {
             </Menu.Item>
             <Space wrap>
               <Button
+                className="button"
                 type="primary"
                 style={{ backgroundColor: '#ff7e55', color: 'white' }}
                 onClick={loginWithRedirect}>
                 Sign Up / Login
-              </Button>
-              <Button
-                className="button"
-                type="primary"
-                style={{ backgroundColor: '#ff7e55', color: 'white' }}
-                onClick={logout}>
-                Logout
               </Button>
             </Space>
           </Menu>
@@ -142,43 +153,46 @@ export default function WelcomePage() {
                 type="primary"
                 style={{ backgroundColor: '#ff7e55', color: 'white' }}
                 onClick={loginWithRedirect}>
-                Sign Up/Login
+                Sign Up / Login
               </Button>
             </Space>
           </div>
           <div id="about">
-            <h2>Join us with these 3 simple steps:</h2>
+            <h2>Here's how it works: </h2>
             <img className="banner" src={banner} alt="banner" />
           </div>
           <div id="press" className="press">
-            <h2>We are supported by</h2>
-            <Carousel slidesToShow={3} style={{ margin: '20px 50px' }} autoplay>
-              <div className="slide">
-                <img src={logo} alt="rocket" />
-              </div>
-              <div className="slide">
-                <img src={intropage} alt="rocket" />
-              </div>
-              <div className="slide">
-                <img src={banner} alt="rocket" />
-              </div>
+            <h2>We are supported by:</h2>
+            <Carousel
+              slidesToShow={3}
+              style={{ margin: '20px 50px' }}
+              autoplay
+              autoplaySpeed={2000}
+              speed={500}>
               <div className="slide">
                 <img src={rocket} alt="rocket" />
               </div>
               <div className="slide">
-                <img src={intropage} alt="rocket" />
+                <img src={react} alt="react" />
               </div>
               <div className="slide">
-                <img src={banner} alt="rocket" />
+                <img src={cloudinary} alt="cloudinary" />
+              </div>
+              <div className="slide">
+                <img src={postgres} alt="postgres" />
+              </div>
+              <div className="slide">
+                <img src={sendgrid} alt="sendgrid" />
+              </div>
+              <div className="slide">
+                <img src={antdesign} alt="antdesign" />
               </div>
             </Carousel>
           </div>
           <div className="contact" id="contact">
             <h2>Contact us</h2>
             <p>Have any questions? Get in touch with us!</p>
-            <div className="contactfields">
-              <div>email: hello@giveandtake.sg</div>
-            </div>
+            <p className="email">hello@giveandtake.sg</p>
           </div>
         </Content>
         <Footer style={footerStyle}>Copyright © Give & Take 2023 </Footer>
