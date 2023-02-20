@@ -169,7 +169,6 @@ export function UserProfile() {
       <Layout>
         <Sider width={300} style={siderStyle}>
           <Navbar />
-          <Footer style={replicateFooterStyle}> </Footer>
         </Sider>
         <Layout>
           <Content style={contentStyle}>
