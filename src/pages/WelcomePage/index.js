@@ -45,7 +45,8 @@ const footerStyle = {
 };
 export default function WelcomePage() {
   const [listingsReturned, setListingsReturned] = useState([]);
-  const { getAccessTokenSilently, user, loginWithRedirect, logout } = useAuth0();
+  const { getAccessTokenSilently, user, loginWithRedirect, logout } =
+    useAuth0();
   const [accessToken, setAccessToken] = useState(null);
 
   useEffect(() => {
@@ -68,6 +69,18 @@ export default function WelcomePage() {
     }
   }, [user, accessToken]);
   console.log(accessToken);
+
+  const handleSignUp = () => {
+    const redirectUri = "http://localhost:3001/*/homepage";
+    const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
+    const queryParams = {
+      client_id: clientId,
+      redirect_uri: redirectUri,
+      // response_type: 'code',
+      scope: "openid profile email",
+      screen_hint: "signup",
+    };
+  };
 
   return (
     <Space
@@ -97,8 +110,16 @@ export default function WelcomePage() {
               <Button
                 className="button"
                 type="primary"
-                style={{ backgroundColor: '#ff7e55', color: 'white' }}
-                onClick={loginWithRedirect}>
+                style={{ backgroundColor: "#ff7e55", color: "white" }}
+                onClick={handleSignUp}
+              >
+                Sign Up
+              </Button>
+              <Button
+                type="primary"
+                style={{ backgroundColor: "#ff7e55", color: "white" }}
+                onClick={loginWithRedirect}
+              >
                 Sign Up / Login
               </Button>
             </Space>
@@ -116,9 +137,10 @@ export default function WelcomePage() {
           <div className="press">
             <h2>These are some listings you might be interested in:</h2>
 
-            <Row gutter={16}>
-              {listingsReturned.map(({ category, item_name, photo_url }) => (
-                <Col span={6}>
+          <Row gutter={16}>
+            {listingsReturned.map(
+              ({ category, item_name, photo_url }, index) => (
+                <Col span={6} key={index}>
                   <Card
                     hoverable
                     style={{ width: 300, margin: 20 }}
