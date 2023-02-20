@@ -86,14 +86,20 @@ export default function WelcomePage() {
       <Layout>
         <Header style={headerStyle}>
           <Menu
+            className="navbar"
             style={{ backgroundColor: "#eeeeee", color: "#ff7e55" }}
             mode="horizontal"
             defaultSelectedKeys={["0"]}
           >
             <img height={60} src={logo} alt="logo" />
-            <Menu.Item key="0">About</Menu.Item>
+
+            <Menu.Item key="0">
+              <a href="#about">How it works</a>
+            </Menu.Item>
             <Menu.Item key="1">Press</Menu.Item>
-            <Menu.Item key="2">Contact Us</Menu.Item>
+            <Menu.Item key="2">
+              <a href="#contact">Contact Us</a>
+            </Menu.Item>
             <Space wrap>
               <Button
                 type="primary"
@@ -126,7 +132,7 @@ export default function WelcomePage() {
               <p>Your local app for giving and requesting things.</p>
             </div>
           </div>
-          <h2>Here's how it works: </h2>
+          <h2 id="about">Here's how it works: </h2>
           <img className="banner" src={banner} alt="banner" />
           <h2>These are some listings you might be interested in:</h2>
 
@@ -168,6 +174,9 @@ export default function WelcomePage() {
               Login
             </Button>
           </Space>
+
+          <h1 id="contact">Contact us</h1>
+          <h3>Have any questions? Get in touch with us!</h3>
         </Content>
         <Footer style={footerStyle}>Copyright(c) Give and Take 2023. </Footer>
       </Layout>

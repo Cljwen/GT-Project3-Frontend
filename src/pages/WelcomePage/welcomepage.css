@@ -5,9 +5,15 @@ body {
   font-family: 'Cormorant Garamond', serif;
 }
 
+.navbar {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: large;
+}
+
 .container {
   position: relative;
   text-align: left;
+  font-family: 'Cormorant Garamond', serif;
 }
 
 .top-left {
