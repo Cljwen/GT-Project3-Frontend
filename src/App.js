@@ -17,7 +17,11 @@ import EditListing from "./pages/EditListing";
 
 import HomePage from "./pages/HomePage";
 import ViewListing from "./pages/ViewListing";
+import UserIndividualListing from "./pages/UserIndividualListing";
 import CreateListing from "./pages/CreateListing";
+import ListingDisplay from "./pages/ListingPage";
+import CreateListingPage from "./pages/CreateListing";
+import { Auth0Provider } from "@auth0/auth0-react";
 
 function App() {
   let { user_id } = useParams();
@@ -29,11 +33,12 @@ function App() {
         <Route path=":user_id">
           <Route path="homepage" element={<HomePage />} />
           {/* listings page URL to be confirmed */}
-          <Route path="listings/1" element={<ViewListing />} />
+          <Route path="listings/:listing_id" element={<ViewListing />} />
+          <Route path="userlistings/:listing_id" element={<UserIndividualListing />} />
           <Route path="createlisting" element={<CreateListing />} />
           <Route path="settings" element={<EditProfile />} />
           <Route path="profile" element={<Profile />} />
-          <Route path="editlisting" element={<EditListing />} />
+          <Route path="editlisting/:listing_id" element={<EditListing />} />
         </Route>
       </Routes>
     </BrowserRouter>

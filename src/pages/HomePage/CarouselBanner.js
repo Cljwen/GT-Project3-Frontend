@@ -1,7 +1,7 @@
 import React from "react";
 import { Carousel, Card } from "antd";
 import { LeftCircleTwoTone, RightCircleTwoTone } from "@ant-design/icons";
-import "../homepage.css";
+import "./homepage.css";
 
 export default function CarouselBanner() {
   const { Meta } = Card;

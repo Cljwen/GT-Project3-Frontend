@@ -3,8 +3,8 @@ import React from 'react';
 import './editlisting.css';
 // import profilepic from '../assets//images/profilepic.jpeg';
 // import bike from '../assets//images/bike.jpg';
-import book from '../../assets/images/book.webp';
-import logo from '../../assets/images/logo.png';
+// import book from '../../assets/images/book.webp';
+// import logo from '../../assets/images/logo.png';
 
 import { Button, Input, Upload, Radio } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
@@ -54,7 +54,7 @@ export function EditListing() {
           <ul>
             <div className="profile">
               <div className="logo">
-                <img src={logo} alt="logo" />
+                {/* <img src={} alt="logo" /> */}
               </div>
             </div>
             <li>
@@ -76,7 +76,7 @@ export function EditListing() {
             <div className="userDescription">
               <div className="profile">
                 <div className="photo">
-                  <img src={book} alt="book" />
+                  {/* <img src={} alt="book" /> */}
 
                   <Upload action="/upload.do" listType="picture-card">
                     <div>

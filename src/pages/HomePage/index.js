@@ -1,22 +1,15 @@
 import React from "react";
 import { Layout, Button, Input, ConfigProvider, Row, Col, Menu } from "antd";
-import CarouselBanner from "./components/CarouselBanner";
-import ListingCards from "./components/ListingCards";
-import { Pagination } from "antd";
-import CategorySlider from "./components/CategorySlider";
+import CarouselBanner from "./CarouselBanner";
+import ListingCards from "./ListingCards";
+import CategorySlider from "./CategorySlider";
 import { Navbar } from "../../commoncomponents/Navbar/Navbar";
-import SearchBar from "./components/SearchBar";
+import Search from "antd/es/input/Search";
+import { useEffect, useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const { Header, Footer, Sider, Content } = Layout;
 
-// const headerStyle = {
-//   textAlign: "center",
-//   color: "#ff7e55",
-//   minHeight: 80,
-//   paddingInline: 50,
-//   lineHeight: "64px",
-//   backgroundColor: "#eeeeee",
-// };
 const siderStyle = {
   backgroundColor: "white",
 };
@@ -40,6 +33,22 @@ const replicateFooterStyle = {
 };
 
 export default function HomePage() {
+  const { getAccessTokenSilently, user, loginWithRedirect, logout } =
+    useAuth0();
+  const [accessToken, setAccessToken] = useState(null);
+
+  useEffect(() => {
+    if (user && !accessToken) {
+      getAccessTokenSilently().then((jwt) => {
+        setAccessToken(jwt);
+      });
+    }
+  }, [user, accessToken]);
+  console.log(accessToken);
+
+  const configs = {};
+  if (accessToken) configs.headers = { Authorization: `Bearer ${accessToken}` };
+
   return (
     <div>
       {/* Change theme primary */}
@@ -51,29 +60,36 @@ export default function HomePage() {
         }}
       >
         <Layout>
-          <Sider width={250} style={siderStyle}>
-            <Navbar />
-            <Footer style={replicateFooterStyle}>{" yo "}</Footer>
-          </Sider>
+          <Header>
+            <Row>
+              <Col span={24}>
+                <Search
+                  placeholder="What are you looking for?"
+                  allowClear
+                  enterButton="Search"
+                  size="large"
+                  style={{ margin: "20px 0px" }}
+                  // onSearch={onSearch}
+                />
+              </Col>
+            </Row>
+          </Header>
+          <Content>
+            {/* banner  */}
+            <CarouselBanner />
+            <CategorySlider />
+            <ListingCards configs={configs} />
 
-          <Layout>
-            <Content style={contentStyle}>
-              {/* banner  */}
-              <CarouselBanner />
-
-              <SearchBar />
-
-              <CategorySlider />
-              {/* Listing cards */}
-              <ListingCards />
-              <Pagination
-                style={{ margin: "auto", padding: "20px 0px" }}
-                defaultCurrent={1}
-                total={50}
-              />
-            </Content>
-            <Footer style={footerStyle}> Copyright© G&T 2023</Footer>
-          </Layout>
+  
+            <Button
+              type="primary"
+              style={{ backgroundColor: "#ff7e55", color: "white" }}
+              onClick={logout}
+            >
+              Logout
+            </Button>
+          </Content>
+          <Footer style={footerStyle}> Copyright G&T 2023</Footer>
         </Layout>
       </ConfigProvider>
     </div>

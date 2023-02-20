@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "antd";
 import { Col, Row } from "antd";
-import "../homepage.css";
+import "./homepage.css";
 
 export default function CategorySlider() {
   const categories = [

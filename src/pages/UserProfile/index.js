@@ -1,13 +1,10 @@
 // user profile page
 import React from 'react';
 import './userprofile.css';
-import { UsersProfile } from './UsersProfile.js';
-import { UserListings } from './UserListings';
-import profilepic from '../../assets/images/profilepic.jpeg';
+// import profilepic from '../../assets/images/profilepic.jpeg';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 // import bike from '../assets//images/bike.jpg';
-import book from '../../assets/images/book.webp';
-import logo from '../../assets/images/logo.png';
+
 import { Card, Button, Tag } from 'antd';
 
 const { Meta } = Card;
@@ -20,7 +17,7 @@ export function UserProfile() {
           <ul>
             <div className="profile">
               <div className="logo">
-                <img src={logo} alt="logo" />
+                {/* <img src={logo} alt="logo" /> */}
               </div>
             </div>
             <li>
@@ -40,13 +37,13 @@ export function UserProfile() {
       </div>
 
       <div className="content">
-        {UsersProfile.map((item, index) => {
+        {/* {UsersProfile.map((item, index) => {
           return (
             <div className="userName" key={index}>
               <div className="userDescription">
                 <div className="profile">
                   <div className="photo">
-                    {/* <img src={item.photo} alt={item.alt} /> */}
+                    <img src={item.photo} alt={item.alt} />
                     <img src={profilepic} alt={item.alt} />
                   </div>
                   <h1>{item.username}</h1>
@@ -61,7 +58,7 @@ export function UserProfile() {
               </Button>
             </div>
           );
-        })}
+        })} */}
         {/* original code */}
         {/* <div className={styles.userName}>
           <div className={styles.userDescription}>
@@ -93,7 +90,7 @@ export function UserProfile() {
           <div className={styles.filter}>Wanted</div> */}
         </div>
         <div className="listings">
-          {UserListings.map((listing, index) => {
+          {/* {UserListings.map((listing, index) => {
             return (
               <Card
                 key={index}
@@ -117,7 +114,7 @@ export function UserProfile() {
                 <Tag color={listing.color}>{listing.condition}</Tag>
               </Card>
             );
-          })}
+          })} */}
         </div>
       </div>
     </>

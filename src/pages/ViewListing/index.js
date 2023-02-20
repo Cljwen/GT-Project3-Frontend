@@ -12,28 +12,55 @@ import { Navbar } from "../../commoncomponents/Navbar/Navbar";
 import "./viewlisting.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function ViewListing() {
   const { Meta } = Card;
 
-  const [listingName, setListingName] = useState("Used Canon 24GB Camera");
-  const [description, setDescription] = useState(
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla consectetur varius nunc, sed tempor dui volutpat fringilla. Vivamus a tortor nunc. "
-  );
-  const [condition, setCondition] = useState("Like New");
+  const [listingReturned, setListingReturned] = useState({});
+  const [userReturned, setUserReturned] = useState({});
+  const { getAccessTokenSilently, user } = useAuth0();
+  const [accessToken, setAccessToken] = useState(null);
+  let { user_id, listing_id } = useParams();
 
-  let { userId, listingId } = useParams();
+  useEffect(() => {
+    if (user && !accessToken) {
+      getAccessTokenSilently().then((jwt) => setAccessToken(jwt));
+    }
+  }, [user]);
+  console.log(accessToken);
+
+  const configs = {};
+  if (accessToken) configs.headers = { Authorization: `Bearer ${accessToken}` };
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/:userId/listings/:listingId")
+      .get(`http://localhost:3000/${user_id}/listings/${listing_id}`, configs)
       .then(function (response) {
         console.log(response.data);
+        setListingReturned(response.data);
       })
       .catch(function (error) {
         console.log(error);
       });
-  }, []);
+    axios
+      .get(`http://localhost:3000/users`, configs)
+      .then(function (response) {
+        console.log(response.data);
+        setUserReturned(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, [accessToken]);
+
+  useEffect(() => {
+    for (let i = 0; i < userReturned.length; i++) {
+      if (listingReturned.user_id === userReturned[i].id) {
+        setUserReturned(userReturned[i]);
+      }
+    }
+  }, [listingReturned, userReturned]);
 
   const { Footer, Sider, Content } = Layout;
 
@@ -77,36 +104,17 @@ export default function ViewListing() {
                   <Carousel
                     dotPosition="bottom"
                     infinite={false}
-                    slidesToShow={3}
+                    slidesToShow={1}
                   >
-                    <Image
-                      width={400}
-                      src="https://images.unsplash.com/photo-1568840568548-478236d70df4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"
-                    />
-
-                    <Image
-                      width={400}
-                      alt="camera"
-                      src="https://images.unsplash.com/photo-1548500853-17a234cbd378?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
-                    />
-                    <Image
-                      width={400}
-                      alt="camera"
-                      src="https://images.unsplash.com/photo-1562749185-dfe5013f7223?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80"
-                    />
-                    <Image
-                      width={400}
-                      alt="camera"
-                      src="https://images.unsplash.com/photo-1548500853-17a234cbd378?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
-                    />
+                    <Image width={400} src={listingReturned.photo_url} />
                   </Carousel>
                 </Image.PreviewGroup>
 
                 <Row gutter={10}>
                   <Col span={18}>
-                    <h1>{listingName}</h1>
-                    <p>{description}</p>
-                    <p>{condition}</p>
+                    <h1>{listingReturned.item_name}</h1>
+                    <p>{listingReturned.description}</p>
+                    <p>{listingReturned.condition}</p>
                   </Col>
 
                   <Col span={6}>
@@ -115,16 +123,21 @@ export default function ViewListing() {
                         avatar={
                           <Avatar src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80" />
                         }
-                        title="PERSON-USERNAME"
+                        title={userReturned.username}
                         description={
                           <>
                             <b>
-                              <EnvironmentOutlined /> Bishan
+                              <EnvironmentOutlined /> {userReturned.mrt}
                             </b>
                             <br />
                             <Button type="primary">
-                              <WhatsAppOutlined />
-                              Chat Now
+                              <a
+                                aria-label="Chat on Whatsapp"
+                                href={`https://wa.me/65${userReturned.phone_number}`}
+                              >
+                                <WhatsAppOutlined />
+                                Chat Now
+                              </a>
                             </Button>
                             <Button type="default">
                               <LikeOutlined />
