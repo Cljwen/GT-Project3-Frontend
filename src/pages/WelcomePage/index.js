@@ -1,7 +1,7 @@
 // welcome page with short intro, login and sign up buttons
 
 import React from 'react';
-import { Layout, Space, Menu, Button, Card, Col, Row, Avatar, Carousel } from 'antd';
+import { Layout, Space, Menu, Button, Card, Col, Row, Avatar, Carousel, Input } from 'antd';
 import intropage from '../../assets/images/intropage.jpg';
 import logo from '../../assets/images/logo.png';
 import banner from '../../assets/images/banner.png';
@@ -45,8 +45,7 @@ const footerStyle = {
 };
 export default function WelcomePage() {
   const [listingsReturned, setListingsReturned] = useState([]);
-  const { getAccessTokenSilently, user, loginWithRedirect, logout } =
-    useAuth0();
+  const { getAccessTokenSilently, user, loginWithRedirect, logout } = useAuth0();
   const [accessToken, setAccessToken] = useState(null);
 
   useEffect(() => {
@@ -89,17 +88,26 @@ export default function WelcomePage() {
             <Menu.Item key="0">
               <a href="#about">How it works</a>
             </Menu.Item>
-            <Menu.Item key="1">Press</Menu.Item>
+            <Menu.Item key="1">
+              <a href="#press">Press</a>
+            </Menu.Item>
             <Menu.Item key="2">
               <a href="#contact">Contact Us</a>
             </Menu.Item>
             <Space wrap>
               <Button
+                className="button"
                 type="primary"
-                style={{ backgroundColor: "#ff7e55", color: "white" }}
-                onClick={loginWithRedirect}
-              >
+                style={{ backgroundColor: '#ff7e55', color: 'white' }}
+                onClick={loginWithRedirect}>
                 Sign Up / Login
+              </Button>
+              <Button
+                className="button"
+                type="primary"
+                style={{ backgroundColor: '#ff7e55', color: 'white' }}
+                onClick={logout}>
+                Logout
               </Button>
             </Space>
           </Menu>
@@ -113,14 +121,12 @@ export default function WelcomePage() {
               <p>Your local app for giving and requesting things.</p>
             </div>
           </div>
-          <h2 id="about">Here's how it works: </h2>
-          <img className="banner" src={banner} alt="banner" />
-          <h2>These are some listings you might be interested in:</h2>
+          <div className="press">
+            <h2>These are some listings you might be interested in:</h2>
 
-          <Row gutter={16}>
-            {listingsReturned.map(
-              ({ category, item_name, photo_url }, index) => (
-                <Col span={6} key={index}>
+            <Row gutter={16}>
+              {listingsReturned.map(({ category, item_name, photo_url }) => (
+                <Col span={6}>
                   <Card
                     hoverable
                     style={{ width: 300, margin: 20 }}
@@ -149,17 +155,21 @@ export default function WelcomePage() {
             </Space>
           </div>
           <div id="about">
-            <h2>Here's how it works: </h2>
+            <h2>Join us with these 3 simple steps:</h2>
             <img className="banner" src={banner} alt="banner" />
           </div>
           <div id="press" className="press">
-            <h2>We are supported by:</h2>
-            <Carousel
-              slidesToShow={3}
-              style={{ margin: '20px 50px' }}
-              autoplay
-              autoplaySpeed={2000}
-              speed={500}>
+            <h2>We are supported by</h2>
+            <Carousel slidesToShow={3} style={{ margin: '20px 50px' }} autoplay>
+              <div className="slide">
+                <img src={logo} alt="rocket" />
+              </div>
+              <div className="slide">
+                <img src={intropage} alt="rocket" />
+              </div>
+              <div className="slide">
+                <img src={banner} alt="rocket" />
+              </div>
               <div className="slide">
                 <img src={rocket} alt="rocket" />
               </div>
