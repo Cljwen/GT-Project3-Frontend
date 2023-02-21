@@ -1,7 +1,7 @@
 // welcome page with short intro, login and sign up buttons
 
 import React from 'react';
-import { Layout, Space, Menu, Button, Card, Col, Row, Avatar, Carousel } from 'antd';
+import { Layout, Space, Menu, Button, Card, Col, Row, Avatar, Carousel, Input } from 'antd';
 import intropage from '../../assets/images/intropage.jpg';
 import logo from '../../assets/images/logo.png';
 import banner from '../../assets/images/banner.png';
@@ -68,18 +68,6 @@ export default function WelcomePage() {
     }
   }, [user, accessToken]);
   console.log(accessToken);
-
-  const handleSignUp = () => {
-    const redirectUri = 'http://localhost:3001/*/homepage';
-    const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
-    const queryParams = {
-      client_id: clientId,
-      redirect_uri: redirectUri,
-      // response_type: 'code',
-      scope: 'openid profile email',
-      screen_hint: 'signup'
-    };
-  };
 
   return (
     <Space
@@ -159,17 +147,21 @@ export default function WelcomePage() {
             </Space>
           </div>
           <div id="about">
-            <h2>Here's how it works: </h2>
+            <h2>Join us with these 3 simple steps:</h2>
             <img className="banner" src={banner} alt="banner" />
           </div>
           <div id="press" className="press">
-            <h2>We are supported by:</h2>
-            <Carousel
-              slidesToShow={3}
-              style={{ margin: '20px 50px' }}
-              autoplay
-              autoplaySpeed={2000}
-              speed={500}>
+            <h2>We are supported by</h2>
+            <Carousel slidesToShow={3} style={{ margin: '20px 50px' }} autoplay>
+              <div className="slide">
+                <img src={logo} alt="rocket" />
+              </div>
+              <div className="slide">
+                <img src={intropage} alt="rocket" />
+              </div>
+              <div className="slide">
+                <img src={banner} alt="rocket" />
+              </div>
               <div className="slide">
                 <img src={rocket} alt="rocket" />
               </div>
