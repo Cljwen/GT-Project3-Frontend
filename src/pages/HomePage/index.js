@@ -21,8 +21,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 const { Header } = Layout;
 
 export default function HomePage() {
-  const { getAccessTokenSilently, user, loginWithRedirect, logout } =
-    useAuth0();
+  const { getAccessTokenSilently, user, loginWithRedirect, logout } = useAuth0();
   const [accessToken, setAccessToken] = useState(null);
 
   useEffect(() => {

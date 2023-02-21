@@ -56,7 +56,7 @@ export default function ListingCards({ configs }) {
       for (const item2 of usersReturned) {
         if (item.user_id === item2.id) {
           let tempObject = {};
-          tempObject = { ...item, mrt: item2.mrt, username: item2.username, phone_number: item2.phone_number };
+          tempObject = { ...item, mrt: item2.mrt, username: item2.username, phone_number: item2.phone_number, profile_photo: item2.profile_photo };
           setCombinedData((combinedData) => [...combinedData, tempObject]);
         }
       }
@@ -91,7 +91,7 @@ export default function ListingCards({ configs }) {
       />
       <Row gutter={[16, 24]}>
         {pageListings.map(
-          ({ photo_url, item_name, mrt, username, id, user_id, phone_number }) => (
+          ({ photo_url, item_name, mrt, username, id, user_id, phone_number, profile_photo }) => (
             <Col span={6} key={id}>
               <Card
                 style={{ width: 300 }}
@@ -113,7 +113,7 @@ export default function ListingCards({ configs }) {
               >
                 <Meta
                   avatar={
-                    <Avatar src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80" />
+                    <Avatar src={profile_photo} />
                   }
                   title={item_name}
                   description={

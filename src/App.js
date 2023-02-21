@@ -14,7 +14,7 @@ import { EditProfile } from "./pages/EditProfile";
 import WelcomePage from "./pages/WelcomePage";
 import HomePage from "./pages/HomePage";
 
-import Profile from "./pages/UserProfile";
+import UserProfile from "./pages/UserProfile";
 import CreateProfile from "./pages/CreateProfile";
 import UserIndividualListing from "./pages/UserIndividualListing";
 
@@ -36,7 +36,7 @@ function App() {
           <Route path="userlistings/:listing_id" element={<UserIndividualListing />} />
           <Route path="createlisting" element={<CreateListing />} />
           <Route path="settings" element={<EditProfile />} />
-          <Route path="profile" element={<Profile />} />
+          <Route path="profile" element={<UserProfile />} />
           <Route path="editlisting/:listing_id" element={<EditListing />} />
         </Route>
       </Routes>
