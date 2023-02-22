@@ -76,10 +76,10 @@ export function CreateProfile() {
       icon: (
         <FrownOutlined
           style={{
-            color: 'red'
+            color: "red",
           }}
         />
-      )
+      ),
     });
   };
 
@@ -94,11 +94,11 @@ export function CreateProfile() {
       .post(`http://localhost:3000/createuser`, formValues, configs)
       .then(function (response) {
         console.log(response);
-        openSuccessNotification('top');
+        openSuccessNotification("top");
       })
       .catch(function (error) {
         console.log(error);
-        openFailureNotification('top');
+        openFailureNotification("top");
       });
   };
 
@@ -109,7 +109,7 @@ export function CreateProfile() {
         last_name: user.family_name,
         first_name: user.given_name,
         username: user.nickname,
-        profile_photo: user.picture
+        profile_photo: user.picture,
       });
     }
   }, [user]);

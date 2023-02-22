@@ -21,15 +21,15 @@ export default function LoadingPage() {
       .then(function (response) {
         console.log(response.data);
         let userFoundInDatabase = false;
-        let retrievedUserId = '';
-        for (let i = 0; i < response.data.length; i++) {
-          if (response.data[i].email === user.email) {
+        let retrievedUserId = "";
+        for(let i = 0; i < response.data.length; i++){
+          if(response.data[i].email === user.email){
             userFoundInDatabase = true;
-            retrievedUserId = response.data[i].id;
+            retrievedUserId = response.data[i].id
           }
         }
-        if (!userFoundInDatabase) {
-          navigate('/createprofile');
+        if(!userFoundInDatabase){
+          navigate("/createprofile")
         } else {
           navigate(`/${retrievedUserId}/homepage`);
         }
