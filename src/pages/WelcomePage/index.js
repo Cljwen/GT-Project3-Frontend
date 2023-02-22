@@ -88,7 +88,6 @@ export default function WelcomePage() {
             </Menu.Item>
             <Space wrap>
               <Button
-                className="button"
                 type="primary"
                 style={{ backgroundColor: '#ff7e55', color: 'white' }}
                 onClick={loginWithRedirect}>
