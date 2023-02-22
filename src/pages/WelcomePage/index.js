@@ -91,7 +91,6 @@ export default function WelcomePage() {
             </Menu.Item>
             <Space wrap>
               <Button
-                className="button"
                 type="primary"
                 style={{ backgroundColor: '#ff7e55', color: 'white' }}
                 onClick={loginWithRedirect}>
@@ -119,70 +118,29 @@ export default function WelcomePage() {
           <div className="press">
             <h2>These are some listings you might be interested in:</h2>
 
-            <Row gutter={16}>
-              {listingsReturned.map(({ category, item_name, photo_url }) => (
-                <Col span={6}>
-                  <Card
-                    hoverable
-                    style={{ width: 300, margin: 20 }}
-                    cover={
-                      <img
-                        alt=""
-                        src={photo_url}
-                        style={{ width: 300, height: 300, objectFit: 'contain' }}
-                      />
-                    }
-                    actions={[<MessageOutlined key="message" />, <LikeOutlined key="like" />]}>
-                    <Meta title={item_name} description={category} />
-                  </Card>
-                </Col>
-              ))}
-            </Row>
-
-            <Space wrap>
-              <Button
-                className="button"
-                type="primary"
-                style={{ backgroundColor: '#ff7e55', color: 'white' }}
-                onClick={loginWithRedirect}>
-                Sign Up/Login
-              </Button>
-            </Space>
-          </div>
-          <div id="about">
-            <h2>Join us with these 3 simple steps:</h2>
-            <img className="banner" src={banner} alt="banner" />
-          </div>
-          <div id="press" className="press">
-            <h2>We are supported by</h2>
-            <Carousel slidesToShow={3} style={{ margin: '20px 50px' }} autoplay>
-              <div className="slide">
-                <img src={logo} alt="rocket" />
-              </div>
-              <div className="slide">
-                <img src={intropage} alt="rocket" />
-              </div>
-              <div className="slide">
-                <img src={banner} alt="rocket" />
-              </div>
-              <div className="slide">
-                <img src={rocket} alt="rocket" />
-              </div>
-              <div className="slide">
-                <img src={intropage} alt="rocket" />
-              </div>
-              <div className="slide">
-                <img src={banner} alt="rocket" />
-              </div>
-            </Carousel>
-          </div>
-          <div className="contact" id="contact">
-            <h2>Contact us</h2>
-            <p>Have any questions? Get in touch with us!</p>
-            <div className="contactfields">
-              <div>email: hello@giveandtake.sg</div>
-            </div>
-          </div>
+          <Row gutter={16}>
+            {listingsReturned.map(({ category, item_name, photo_url }) => (
+              <Col span={6}>
+                <Card
+                  hoverable
+                  style={{ width: 300, margin: 20 }}
+                  cover={
+                    <img
+                      alt=""
+                      src={photo_url}
+                      style={{ width: 300, height: 300, objectFit: "contain" }}
+                    />
+                  }
+                  actions={[
+                    <MessageOutlined key="message" />,
+                    <LikeOutlined key="like" />,
+                  ]}
+                >
+                  <Meta title={item_name} description={category} />
+                </Card>
+              </Col>
+            ))}
+          </Row>
         </Content>
         <Footer style={footerStyle}>Copyright(c) Give and Take 2023. </Footer>
       </Layout>

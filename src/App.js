@@ -21,6 +21,7 @@ import UserIndividualListing from "./pages/UserIndividualListing";
 import CreateListing from "./pages/CreateListing";
 import ViewListing from "./pages/ViewListing";
 import EditListing from "./pages/EditListing";
+import LoadingPage from "./pages/LoadingPage";
 
 function App() {
   let { user_id } = useParams();
@@ -29,11 +30,16 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<WelcomePage />} />
+        <Route path="/loading" element={<LoadingPage />} />
+        <Route path="/createprofile" element={<CreateProfile />} />
         <Route path=":user_id">
           <Route path="homepage" element={<HomePage />} />
           {/* listings page URL to be confirmed */}
           <Route path="listings/:listing_id" element={<ViewListing />} />
-          <Route path="userlistings/:listing_id" element={<UserIndividualListing />} />
+          <Route
+            path="userlistings/:listing_id"
+            element={<UserIndividualListing />}
+          />
           <Route path="createlisting" element={<CreateListing />} />
           <Route path="settings" element={<EditProfile />} />
           <Route path="profile" element={<UserProfile />} />

@@ -10,10 +10,21 @@ import {
 } from "../globalstyles.js";
 import { Navbar } from "../../commoncomponents/Navbar/Navbar";
 import { PlusOutlined } from "@ant-design/icons";
-import { Button, Form, Input, TreeSelect, Upload, Select, Layout } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  TreeSelect,
+  Upload,
+  Select,
+  Layout,
+  notification,
+} from "antd";
 import { useAuth0 } from "@auth0/auth0-react";
-// import { MRTstations } from './MRTstations';
-// import { useState } from 'react';
+import { SmileOutlined, FrownOutlined } from "@ant-design/icons";
+import { UploadWidget } from "./UploadWidget";
+import axios from "axios";
+import { useParams, Link, Navigate, useNavigate } from "react-router-dom";
 
 export function CreateProfile() {
   const { TextArea } = Input;
@@ -28,8 +39,80 @@ export function CreateProfile() {
     </Form.Item>
   );
 
+  let { user_id } = useParams();
+  const navigate = useNavigate();
   const { getAccessTokenSilently, user } = useAuth0();
-  const { accessToken, setAccessToken } = useState(null);
+  const [accessToken, setAccessToken] = useState(null);
+  const [formValues, setFormValues] = useState({});
+  const [api, contextHolder] = notification.useNotification();
+  const openSuccessNotification = (placement) => {
+    api.info({
+      message: `Yippee!`,
+      description: "Create profile successful!",
+      placement,
+      icon: (
+        <SmileOutlined
+          style={{
+            color: "green",
+          }}
+        />
+      ),
+    });
+    axios
+      .get(`http://localhost:3000/${user.email}`, configs)
+      .then(function (response) {
+        console.log(response);
+        navigate(`/${response.data.id}/homepage`);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+  const openFailureNotification = (placement) => {
+    api.info({
+      message: `Oh no!`,
+      description: "Create profile unsuccessful!",
+      placement,
+      icon: (
+        <FrownOutlined
+          style={{
+            color: "red",
+          }}
+        />
+      ),
+    });
+  };
+
+  const handleInputChange = (e) => {
+    setFormValues({ ...formValues, [e.target.id]: e.target.value });
+    console.log(formValues);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post(`http://localhost:3000/createuser`, formValues, configs)
+      .then(function (response) {
+        console.log(response);
+        openSuccessNotification("top");
+      })
+      .catch(function (error) {
+        console.log(error);
+        openFailureNotification("top");
+      });
+  };
+
+  useEffect(() => {
+    if (user) {
+      setFormValues({
+        email: user.email,
+        last_name: user.family_name,
+        first_name: user.given_name,
+        username: user.nickname,
+        profile_photo: user.picture,
+      });
+    }
+  }, [user]);
 
   useEffect(() => {
     if (user && !accessToken) {
@@ -37,6 +120,10 @@ export function CreateProfile() {
     }
   }, [user, accessToken]);
   console.log(accessToken);
+
+
+  const configs = {};
+  if (accessToken) configs.headers = { Authorization: `Bearer ${accessToken}` };
 
   const footerStyle = {
     textAlign: "center",
@@ -58,100 +145,119 @@ export function CreateProfile() {
 
   return (
     <div>
+      {contextHolder}
       <Layout>
         <Sider width={300} style={siderStyle}>
           <Navbar />
-          <Footer style={replicateFooterStyle}></Footer>
+          <Footer style={replicateFooterStyle}> </Footer>
         </Sider>
         <Layout>
           <Content style={contentStyle}>
             <div>
-              {/* className={styles.formBody}> */}
-              <Form
-                labelCol={{
-                  span: 8,
-                }}
-                wrapperCol={{
-                  span: 20,
-                }}
-                layout="horizontal"
-                // onValuesChange={onFormLayoutChange}
-                // disabled={componentDisabled}
-                style={{
-                  maxWidth: 800,
-                }}
-              >
-                <Form.Item label="Profile" valuePropName="fileList">
-                  <Upload action="/upload.do" listType="picture-card">
-                    <div>
-                      <PlusOutlined />
-                      <div
-                        style={{
-                          marginTop: 8,
-                        }}
-                      ></div>
-                    </div>
-                  </Upload>
-                </Form.Item>
-                <Form.Item label="Username">
-                  <Input />
-                </Form.Item>
-                <Form.Item
-                  label="Password"
-                  name="password"
-                  rules={[
-                    { required: true, message: "Please input your password!" },
-                  ]}
+              {user && (
+                <Form
+                  labelCol={{
+                    span: 8,
+                  }}
+                  wrapperCol={{
+                    span: 20,
+                  }}
+                  layout="horizontal"
+                  style={{
+                    maxWidth: 800,
+                  }}
                 >
-                  <Input.Password />
-                </Form.Item>
+                  <Form.Item label="Current Profile Photo" name="profile_photo">
+                    <img alt="" src={formValues.profile_photo} width="200" />
+                    <br></br>
+                    <UploadWidget
+                      setFormValues={setFormValues}
+                      formValues={formValues}
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    label="Username"
+                    name="username"
+                    onChange={handleInputChange}
+                    defaultValue={user.nickname}
+                  >
+                    <Input
+                      placeholder={user.nickname}
+                      // defaultValue={user.nickname}
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    label="First Name"
+                    name="first_name"
+                    onChange={handleInputChange}
+                  >
+                    <Input placeholder={formValues.first_name} />
+                  </Form.Item>
+                  <Form.Item
+                    label="Last Name"
+                    name="last_name"
+                    onChange={handleInputChange}
+                  >
+                    <Input placeholder={formValues.last_name} />
+                  </Form.Item>
+                  <Form.Item
+                    label="Email"
+                    name="email"
+                    onChange={handleInputChange}
+                  >
+                    <Input placeholder={formValues.email} />
+                  </Form.Item>
 
-                <Form.Item
-                  name="phone"
-                  label="Phone Number"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your phone number!",
-                    },
-                  ]}
-                >
-                  <Input
-                    addonBefore={prefixSelector}
-                    style={{ width: "100%" }}
-                  />
-                </Form.Item>
-
-                <Form.Item label="Nearest MRT station">
-                  <TreeSelect
-                    treeData={[
+                  <Form.Item
+                    name="phone_number"
+                    label="Phone Number"
+                    rules={[
                       {
-                        title: "North",
-                        value: "north",
-                        children: [
-                          {
-                            title: "Woodlands",
-                            value: "woodlands",
-                          },
-                          {
-                            title: "Bishan",
-                            value: "bishan",
-                          },
-                        ],
+                        required: true,
+                        message: "Please input your phone number!",
                       },
                     ]}
-                  />
-                </Form.Item>
-                <Form.Item label="Bio">
-                  <TextArea rows={4} />
-                </Form.Item>
+                    onChange={handleInputChange}
+                  >
+                    <Input
+                      addonBefore="+65"
+                      placeholder={formValues.phone_number}
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    label="Address"
+                    name="address"
+                    onChange={handleInputChange}
+                  >
+                    <Input placeholder={formValues.address} />
+                  </Form.Item>
+                  <Form.Item
+                    label="Postal Code"
+                    name="postal_code"
+                    onChange={handleInputChange}
+                  >
+                    <Input placeholder={formValues.postal_code} />
+                  </Form.Item>
+                  <Form.Item
+                    label="Nearest MRT"
+                    name="mrt"
+                    onChange={handleInputChange}
+                  >
+                    <Input placeholder={formValues.mrt} />
+                  </Form.Item>
 
-                <Form.Item>
-                  <Button>Save</Button>
-                  <Button>Cancel</Button>
-                </Form.Item>
-              </Form>
-              {/* <Logout /> */}
+                  <Form.Item>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      onClick={handleSubmit}
+                    >
+                      Save Changes
+                    </Button>
+                    <Link to={`/${user_id}/profile`}>Back to Profile</Link>
+                  </Form.Item>
+                </Form>
+              )}
             </div>
           </Content>
           <Footer style={footerStyle}></Footer>

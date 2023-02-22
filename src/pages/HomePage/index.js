@@ -4,6 +4,7 @@ import CarouselBanner from "./CarouselBanner";
 import ListingCards from "./ListingCards";
 import CategorySlider from "./CategorySlider";
 import { Navbar } from "../../commoncomponents/Navbar/Navbar";
+import { useNavigate } from "react-router-dom";
 
 import {
   Sider,
@@ -17,10 +18,12 @@ import {
 import Search from "antd/es/input/Search";
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
 
 const { Header } = Layout;
 
 export default function HomePage() {
+  const navigate = useNavigate();
   const { getAccessTokenSilently, user, loginWithRedirect, logout } = useAuth0();
   const [accessToken, setAccessToken] = useState(null);
 
