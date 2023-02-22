@@ -28,6 +28,7 @@ function App() {
         <Route path="/createprofile" element={<CreateProfile />} />
         <Route path=":user_id">
           <Route path="homepage" element={<HomePage />} />
+
           {/* listings page URL to be confirmed */}
           <Route path="listings/:listing_id" element={<ViewListing />} />
           <Route

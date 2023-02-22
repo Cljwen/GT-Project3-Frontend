@@ -3,13 +3,14 @@ import { Input } from "antd";
 
 export default function SearchBar() {
   const { Search } = Input;
+
   return (
     <Search
       placeholder="What are you looking for?"
       allowClear
       enterButton="Search"
       size="large"
-      style={{ width: "90%", margin: "20px 20px" }}
+      style={{ width: "90%", margin: "20px 50px" }}
       // onSearch={onSearch}
     />
   );

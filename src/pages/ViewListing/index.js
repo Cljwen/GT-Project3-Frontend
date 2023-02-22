@@ -122,7 +122,7 @@ export default function ViewListing() {
                     infinite={false}
                     slidesToShow={1}
                   >
-                    <Image width={400} src={listingReturned.photo_url} />
+                    <Image src={listingReturned.photo_url} height={300} />
                   </Carousel>
                 </Image.PreviewGroup>
 

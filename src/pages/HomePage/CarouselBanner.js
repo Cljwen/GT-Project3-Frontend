@@ -10,6 +10,7 @@ export default function CarouselBanner() {
     <Carousel
       slidesToShow={3}
       arrows={true}
+      dots={false}
       prevArrow={<LeftCircleTwoTone twoToneColor="ff7e55" />}
       nextArrow={<RightCircleTwoTone twoToneColor="ff7e55" />}
       style={{ margin: "20px 50px" }}
@@ -24,7 +25,7 @@ export default function CarouselBanner() {
           />
         }
       >
-        <Meta title="Welfare organisation - promotional banner #1." />
+        <Meta title="Olio: Share more with your neighbours" />
       </Card>
       <Card
         hoverable
@@ -36,7 +37,7 @@ export default function CarouselBanner() {
           />
         }
       >
-        <Meta title="Welfare organisation - promotional banner #2." />
+        <Meta title="Mobike: Sustainable mode of transportation" />
       </Card>
       <Card
         hoverable
@@ -48,7 +49,7 @@ export default function CarouselBanner() {
           />
         }
       >
-        <Meta title="Welfare organisation - promotional banner #3." />
+        <Meta title="Fight waste. Save our planet." />
       </Card>
       <Card
         hoverable
@@ -60,7 +61,7 @@ export default function CarouselBanner() {
           />
         }
       >
-        <Meta title="Welfare organisation - promotional banner #4." />
+        <Meta title="BCorp: In business for good" />
       </Card>
       <Card
         hoverable
@@ -72,7 +73,7 @@ export default function CarouselBanner() {
           />
         }
       >
-        <Meta title="Welfare organisation - promotional banner #5." />
+        <Meta title="FX: Caring for the future generations" />
       </Card>
     </Carousel>
   );

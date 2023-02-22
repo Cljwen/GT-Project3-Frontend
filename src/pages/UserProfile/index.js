@@ -1,6 +1,7 @@
 // user profile page
 import React, { useState, useEffect } from "react";
 import "./userprofile.css";
+import { Card, Button, Tag, Layout, notification, Space } from "antd";
 import {
   EditOutlined,
   DeleteOutlined,
@@ -9,7 +10,6 @@ import {
   SmileOutlined,
   FrownOutlined,
 } from "@ant-design/icons";
-import { Card, Button, Tag, Layout, notification, Space } from "antd";
 import {
   Sider,
   Footer,
@@ -170,6 +170,7 @@ export function UserProfile() {
         <Sider width={300} style={siderStyle}>
           <Navbar />
         </Sider>
+
         <Layout>
           <Content style={contentStyle}>
             <div className="content">

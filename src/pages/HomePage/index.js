@@ -5,6 +5,7 @@ import ListingCards from "./ListingCards";
 import CategorySlider from "./CategorySlider";
 import { Navbar } from "../../commoncomponents/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
+import SearchBar from "./SearchBar";
 
 import {
   Sider,
@@ -24,7 +25,8 @@ const { Header } = Layout;
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const { getAccessTokenSilently, user, loginWithRedirect, logout } = useAuth0();
+  const { getAccessTokenSilently, user, loginWithRedirect, logout } =
+    useAuth0();
   const [accessToken, setAccessToken] = useState(null);
 
   useEffect(() => {
@@ -50,27 +52,8 @@ export default function HomePage() {
         }}
       >
         <Layout>
-          <Header>
-            <Row>
-              <Col span={24}>
-                <Search
-                  placeholder="What are you looking for?"
-                  allowClear
-                  enterButton="Search"
-                  size="large"
-                  style={{ margin: "20px 0px" }}
-                  // onSearch={onSearch}
-                />
-              </Col>
-            </Row>
-          </Header>
-          <Content>
-            {/* banner  */}
-            <CarouselBanner />
-            <CategorySlider />
-            <ListingCards configs={configs} />
-
-  
+          <Sider width={250} style={siderStyle}>
+            <Navbar />
             <Button
               type="primary"
               style={{ backgroundColor: "#ff7e55", color: "white" }}
@@ -78,8 +61,17 @@ export default function HomePage() {
             >
               Logout
             </Button>
-          </Content>
-          <Footer style={footerStyle}> Copyright G&T 2023</Footer>
+            <Footer style={replicateFooterStyle}>{" _"}</Footer>
+          </Sider>
+          <Layout>
+            <Content style={contentStyle}>
+              <CarouselBanner />
+              <SearchBar />
+              {/* <CategorySlider /> */}
+              <ListingCards configs={configs} />
+            </Content>
+            <Footer style={footerStyle}> Copyright G&T 2023</Footer>
+          </Layout>
         </Layout>
       </ConfigProvider>
     </div>
