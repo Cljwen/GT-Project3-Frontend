@@ -25,8 +25,7 @@ const { Header } = Layout;
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const { getAccessTokenSilently, user, loginWithRedirect, logout } =
-    useAuth0();
+  const { getAccessTokenSilently, user, loginWithRedirect, logout } = useAuth0();
   const [accessToken, setAccessToken] = useState(null);
 
   useEffect(() => {
