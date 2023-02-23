@@ -1,10 +1,12 @@
 import React, { useMemo } from "react";
-import { Card, Avatar, Button, Pagination } from "antd";
+import { Card, Avatar, Button, Pagination, Dropdown, Space, Empty } from "antd";
 import {
   WhatsAppOutlined,
   EyeOutlined,
   FilterFilled,
   EnvironmentOutlined,
+  TagOutlined,
+  DownOutlined,
 } from "@ant-design/icons";
 import "./homepage.css";
 import { Col, Row } from "antd";
@@ -21,12 +23,39 @@ export default function ListingCards({ configs }) {
   const [incomingConfig, setIncomingConfig] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const [pageListings, setPageListings] = useState([]);
+  const [filteredListings, setfilteredListings] = useState([]);
+
+  const [listingTypeFilter, setListingTypeFilter] = useState();
+
+  const items = [
+    {
+      key: "1",
+      label: "Give",
+    },
+    {
+      key: "2",
+      label: "Take",
+    },
+  ];
+
+  const onClick = ({ key }) => {
+    console.log(`Click on item ${key}`);
+    if (key === "1") {
+      setListingTypeFilter("Give");
+    } else {
+      setListingTypeFilter("Take");
+    }
+  };
 
   const [category, setCategory] = useState();
   const navigate = useNavigate();
 
   const handleCategoryChange = (value) => {
     setCategory(value);
+  };
+
+  const handleFilterRemoval = () => {
+    setListingTypeFilter(null);
   };
 
   const onPageChange = (page) => {
@@ -42,13 +71,28 @@ export default function ListingCards({ configs }) {
       .get(`http://localhost:3000/listings`, incomingConfig)
       .then(function (response) {
         if (category && category !== "View All Categories") {
-          const filteredListings = response.data.filter((listing) => {
+          let filteredCategoryListings = response.data.filter((listing) => {
             return listing.category === category;
           });
-          setListingsReturned(filteredListings);
-          console.log(filteredListings);
+
+          if (listingTypeFilter) {
+            filteredCategoryListings = filteredCategoryListings.filter(
+              (listing) => {
+                return listing.listing_type === listingTypeFilter;
+              }
+            );
+          }
+          setListingsReturned(filteredCategoryListings);
+          console.log(filteredCategoryListings);
         } else {
-          setListingsReturned(response.data);
+          let filteredCategoryListings = response.data;
+
+          if (listingTypeFilter) {
+            filteredCategoryListings = response.data.filter((listing) => {
+              return listing.listing_type === listingTypeFilter;
+            });
+          }
+          setListingsReturned(filteredCategoryListings);
           console.log(response.data);
         }
       })
@@ -64,7 +108,7 @@ export default function ListingCards({ configs }) {
       .catch(function (error) {
         console.log(error);
       });
-  }, [incomingConfig, category]);
+  }, [incomingConfig, category, listingTypeFilter]);
 
   useEffect(() => {
     setCombinedData([]);
@@ -100,13 +144,27 @@ export default function ListingCards({ configs }) {
 
       <div className="all-listing">
         <Row>
-          <Col span={22}>
+          <Col span={19}>
             <h2>Listings You May Want</h2>
           </Col>
-          <Col span={2} style={{ alignItems: "center", margin: "auto" }}>
-            <Button type="default">
-              <FilterFilled style={{ fontSize: "15px", color: "#ff7e55" }} />{" "}
-              Sort By
+          <Col span={5} style={{ alignItems: "center", margin: "auto" }}>
+            <Dropdown
+              menu={{
+                items,
+                onClick,
+              }}
+            >
+              <Button>
+                <Space>
+                  <FilterFilled
+                    style={{ fontSize: "15px", color: "#ff7e55" }}
+                  />
+                  Filter By
+                </Space>
+              </Button>
+            </Dropdown>
+            <Button type="default" onClick={handleFilterRemoval}>
+              Clear Filters
             </Button>
           </Col>
         </Row>
@@ -117,59 +175,84 @@ export default function ListingCards({ configs }) {
           current={currentPage}
           onChange={onPageChange}
         />
-
-        <Row gutter={[24, 24]}>
-          {pageListings.map(
-            ({
-              photo_url,
-              item_name,
-              mrt,
-              username,
-              id,
-              user_id,
-              phone_number,
-              profile_photo,
-            }) => (
-              <Col span={6} key={id}>
-                <Card
-                  style={{ width: 300 }}
-                  hoverable
-                  cover={
-                    <img
-                      alt="example"
-                      src={photo_url}
-                      style={{ width: 300, height: 300, objectFit: "contain" }}
-                    />
-                  }
-                  actions={[
-                    <Link
-                      to={`http://localhost:3001/${user_id}/listings/${id}`}
-                    >
-                      <EyeOutlined key="view" />
-                    </Link>,
-                    <a href={`https://wa.me/65${phone_number}`}>
-                      <WhatsAppOutlined key="message" />
-                    </a>,
-                  ]}
-                >
-                  <Meta
-                    avatar={<Avatar src={profile_photo} />}
-                    title={item_name}
-                    description={
-                      <>
-                        <b>
-                          <EnvironmentOutlined /> {mrt}
-                        </b>
-                        <br />
-                        Posted by {username}
-                      </>
+        {pageListings.length ? (
+          <Row gutter={[24, 24]}>
+            {pageListings.map(
+              ({
+                photo_url,
+                item_name,
+                mrt,
+                username,
+                id,
+                user_id,
+                phone_number,
+                profile_photo,
+                listing_type,
+              }) => (
+                <Col span={6} key={id}>
+                  <Card
+                    style={{ width: 300 }}
+                    hoverable
+                    cover={
+                      <img
+                        alt="example"
+                        src={photo_url}
+                        style={{
+                          width: 300,
+                          height: 300,
+                          objectFit: "contain",
+                        }}
+                      />
                     }
-                  />
-                </Card>
-              </Col>
-            )
-          )}
-        </Row>
+                    actions={[
+                      <Link
+                        to={`http://localhost:3001/${user_id}/listings/${id}`}
+                      >
+                        <EyeOutlined key="view" />
+                      </Link>,
+                      <a href={`https://wa.me/65${phone_number}`}>
+                        <WhatsAppOutlined key="message" />
+                      </a>,
+                    ]}
+                  >
+                    <Meta
+                      avatar={<Avatar src={profile_photo} />}
+                      title={item_name}
+                      description={
+                        <>
+                          <b>
+                            <Row>
+                              <Col span={8}>
+                                {listing_type === "Give" ? (
+                                  <div className="listing-type-icon-color-tag">
+                                    <TagOutlined style={{ color: "#ff7e55" }} />{" "}
+                                    {listing_type}
+                                  </div>
+                                ) : (
+                                  <div className="listing-type-icon-color-tag">
+                                    <TagOutlined style={{ color: "#ff7e55" }} />{" "}
+                                    {listing_type}
+                                  </div>
+                                )}
+                              </Col>
+                              <Col span={16}>
+                                <EnvironmentOutlined /> {mrt}
+                              </Col>
+                            </Row>
+                          </b>
+                          <br />
+                          Posted by {username}
+                        </>
+                      }
+                    />
+                  </Card>
+                </Col>
+              )
+            )}
+          </Row>
+        ) : (
+          <Empty />
+        )}
       </div>
     </div>
   );

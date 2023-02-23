@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button } from "antd";
 import { Col, Row } from "antd";
 import "./homepage.css";
+import { color } from "@cloudinary/url-gen/qualifiers/background";
 
 export const categories = [
   "Sports",
@@ -15,7 +16,11 @@ export const categories = [
 ];
 
 export default function CategorySlider({ handleCategoryChange }) {
-  // const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState();
+
+  const buttonEnabled = (index) => {
+    setIsActive(index);
+  };
 
   return (
     <div className="homepage-categories">
@@ -26,10 +31,14 @@ export default function CategorySlider({ handleCategoryChange }) {
             <Col span={3.8} key={index}>
               <Button
                 size="large"
-                style={{ width: 180 }}
+                style={
+                  isActive === index
+                    ? { color: "#ff7e55", width: 180 }
+                    : { width: 180 }
+                }
                 onClick={() => {
                   handleCategoryChange(category);
-                  // setIsActive(true);
+                  buttonEnabled(index);
                 }}
                 value={category}
               >
