@@ -53,13 +53,7 @@ export default function HomePage() {
         <Layout>
           <Sider width={250} style={siderStyle}>
             <Navbar />
-            <Button
-              type="primary"
-              style={{ backgroundColor: "#ff7e55", color: "white" }}
-              onClick={logout}
-            >
-              Logout
-            </Button>
+
             <Footer style={replicateFooterStyle}>{" _"}</Footer>
           </Sider>
           <Layout>
@@ -69,7 +63,7 @@ export default function HomePage() {
               {/* <CategorySlider /> */}
               <ListingCards configs={configs} />
             </Content>
-            <Footer style={footerStyle}> Copyright G&T 2023</Footer>
+            <Footer style={footerStyle}> Copyright © Give & Take 2023</Footer>
           </Layout>
         </Layout>
       </ConfigProvider>
