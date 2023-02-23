@@ -68,18 +68,6 @@ export default function WelcomePage() {
   }, [user, accessToken]);
   console.log(accessToken);
 
-  const handleSignUp = () => {
-    const redirectUri = "http://localhost:3001/*/homepage";
-    const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
-    const queryParams = {
-      client_id: clientId,
-      redirect_uri: redirectUri,
-      // response_type: 'code',
-      scope: "openid profile email",
-      screen_hint: "signup",
-    };
-  };
-
   return (
     <Space
       direction="vertical"
@@ -105,14 +93,6 @@ export default function WelcomePage() {
               <a href="#contact">Contact Us</a>
             </Menu.Item>
             <Space wrap>
-              <Button
-                className="button"
-                type="primary"
-                style={{ backgroundColor: "#ff7e55", color: "white" }}
-                onClick={handleSignUp}
-              >
-                Sign Up
-              </Button>
               <Button
                 type="primary"
                 style={{ backgroundColor: "#ff7e55", color: "white" }}
