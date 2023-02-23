@@ -23,7 +23,7 @@ export function UploadWidget({ setFormValues, formValues }) {
           );
           setFormValues({
             ...formValues,
-            photo_url: `https://res.cloudinary.com/dwgeik14h/image/upload/${result.info.files[0].uploadInfo.path}`
+            profile_photo: `https://res.cloudinary.com/dwgeik14h/image/upload/${result.info.files[0].uploadInfo.path}`,
           });
         }
       }

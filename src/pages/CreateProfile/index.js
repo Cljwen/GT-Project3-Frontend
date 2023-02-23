@@ -29,10 +29,17 @@ export function CreateProfile() {
   const [accessToken, setAccessToken] = useState(null);
   const [formValues, setFormValues] = useState({});
   const [api, contextHolder] = notification.useNotification();
+  const msg = {
+    to: `${formValues.email}`, // Change to your recipient
+    from: "frostarcher7@gmail.com", // Change to your verified sender
+    subject: "Give&Take - Your account has been created!",
+    text: `Hi ${formValues.username}, Thank you for creating an account with Give&Take! You may start putting your listings!`,
+    html: `<img alt="" src="https://res.cloudinary.com/dwgeik14h/image/upload/v1675348723/give_and_take_logo.png" /><br></br><h2>Hi ${formValues.username}!</h2><br></br><p>Thank you for creating an account with Give&Take! You may start putting your listings!</p><br></br><p>Login now by clicking <a href="http://localhost:3001">here</a>!</p><br></br><p>Regards,</p></br><p>Give & Take team</p>`,
+  };
   const openSuccessNotification = (placement) => {
     api.info({
       message: `Yippee!`,
-      description: "Create profile successful!",
+      description: "Create profile successful! Welcome to Give&Take!",
       placement,
       icon: (
         <SmileOutlined
@@ -43,19 +50,28 @@ export function CreateProfile() {
       )
     });
     axios
-      .get(`http://localhost:3000/${user.email}`, configs)
+      .post("http://localhost:3000/sendgrid", msg, configs)
       .then(function (response) {
         console.log(response);
-        navigate(`/${response.data.id}/homepage`);
+        axios
+          .get(`http://localhost:3000/${user.email}`, configs)
+          .then(function (response) {
+            console.log(response);
+            navigate(`/${response.data.id}/homepage`);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
       })
       .catch(function (error) {
         console.log(error);
       });
+    
   };
   const openFailureNotification = (placement) => {
     api.info({
       message: `Oh no!`,
-      description: "Create profile unsuccessful!",
+      description: "Create profile unsuccessful! Be sure to check that all fields are filled correctly!",
       placement,
       icon: (
         <FrownOutlined
@@ -111,9 +127,10 @@ export function CreateProfile() {
   return (
     <div>
       {contextHolder}
+      <br></br>
       <Layout>
         <Sider width={300} style={siderStyle}>
-          <Navbar />
+          {/* <Navbar /> */}
           <Footer style={replicateFooterStyle}> </Footer>
         </Sider>
         <Layout>
