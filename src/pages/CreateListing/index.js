@@ -1,5 +1,5 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React from 'react';
+import { useState, useEffect } from 'react';
 import {
   Form,
   Select,
@@ -14,33 +14,33 @@ import {
   ConfigProvider,
   Row,
   Col,
-} from "antd";
+  Card,
+  Tag
+} from 'antd';
 import {
   Footer,
   Sider,
   Content,
   siderStyle,
   contentStyle,
-} from "../globalstyles";
+  footerStyle,
+  replicateFooterStyle
+} from '../globalstyles';
 
-import {
-  SmileOutlined,
-  FrownOutlined,
-  UserOutlined,
-  LeftOutlined,
-} from "@ant-design/icons";
+import { SmileOutlined, FrownOutlined, UserOutlined, LeftOutlined } from '@ant-design/icons';
 
-import TextArea from "antd/es/input/TextArea";
-import { PlusOutlined, InboxOutlined } from "@ant-design/icons";
-import { Navbar } from "../../commoncomponents/Navbar/Navbar";
-import axios from "axios";
-import "./createlisting.css";
+import TextArea from 'antd/es/input/TextArea';
+import { PlusOutlined, InboxOutlined } from '@ant-design/icons';
+import { Navbar } from '../../commoncomponents/Navbar/Navbar';
+import axios from 'axios';
+import './createlisting.css';
 
 //Cloudinary states
-import { UploadWidget } from "./UploadWidget";
-import { useParams, useNavigate } from "react-router-dom";
+import { UploadWidget } from './UploadWidget';
+import { useParams, useNavigate } from 'react-router-dom';
 
 export default function CreateListing() {
+  const { Meta } = Card;
   const [form] = Form.useForm();
   const { user_id } = useParams();
   const navigate = useNavigate();
@@ -52,36 +52,36 @@ export default function CreateListing() {
     category: null,
     description: null,
     listing_type: null,
-    condition: null,
+    condition: null
   });
 
   const [api, contextHolder] = notification.useNotification();
   const openSuccessNotification = (placement) => {
     api.info({
       message: `Yippee!`,
-      description: "Create listing successful!",
+      description: 'Create listing successful!',
       placement,
       icon: (
         <SmileOutlined
           style={{
-            color: "green",
+            color: 'green'
           }}
         />
-      ),
+      )
     });
   };
   const openFailureNotification = (placement) => {
     api.info({
       message: `Oh no!`,
-      description: "Create listing unsuccessful!",
+      description: 'Create listing unsuccessful!',
       placement,
       icon: (
         <FrownOutlined
           style={{
-            color: "red",
+            color: 'red'
           }}
         />
-      ),
+      )
     });
   };
 
@@ -91,11 +91,11 @@ export default function CreateListing() {
       .post(`http://localhost:3000/${user_id}/createlisting`, formValues)
       .then(function (response) {
         console.log(response);
-        openSuccessNotification("top");
+        openSuccessNotification('top');
       })
       .catch(function (error) {
         console.log(error);
-        openFailureNotification("top");
+        openFailureNotification('top');
       });
   };
 
@@ -120,34 +120,15 @@ export default function CreateListing() {
     navigate(-1);
   };
 
-  const footerStyle = {
-    textAlign: "center",
-    color: "#fff",
-    backgroundColor: "#303841",
-    position: "fixed",
-    bottom: 0,
-    width: "100%",
-  };
-
-  const replicateFooterStyle = {
-    left: 0,
-    bottom: 0,
-    width: "100%",
-    // position: 'absolute',
-    backgroundColor: "#303841",
-    position: "fixed",
-  };
-
   return (
     <div>
       {contextHolder}
       <ConfigProvider
         theme={{
           token: {
-            colorPrimary: "#ff7e55",
-          },
-        }}
-      >
+            colorPrimary: '#ff7e55'
+          }
+        }}>
         <Layout>
           <Sider style={siderStyle} width={250}>
             <Navbar />
@@ -158,106 +139,104 @@ export default function CreateListing() {
             <Content style={contentStyle}>
               <>
                 {contextHolder}
+                <Row style={{ margin: 50, padding: 0 }}>
+                  <div className="fill">
+                    <Col span={12} style={{ padding: 20 }}>
+                      <UploadWidget setFormValues={setFormValues} formValues={formValues} />
+                      <p> </p>
+                      <Form form={form} layout="vertical">
+                        <Form.Item
+                          label="Item name"
+                          required
+                          tooltip="This is a required field"
+                          onChange={handleInputChange}
+                          name="item_name">
+                          <Input placeholder="What's the name of this item?" />
+                        </Form.Item>
+                        <Form.Item label="Listing type" required tooltip="This is a required field">
+                          <Select
+                            placeholder="Select a listing type"
+                            onChange={handleListingTypeChange}>
+                            <Select.Option value="Give">Give</Select.Option>
+                            <Select.Option value="Take">Take</Select.Option>
+                          </Select>
+                        </Form.Item>
+                        <Form.Item label="Category" required tooltip="This is a required field">
+                          <Select placeholder="Select a category" onChange={handleCategoryChange}>
+                            <Select.Option value="Shoes">Shoes</Select.Option>
+                            <Select.Option value="Books">Books</Select.Option>
+                            <Select.Option value="Clothes">Clothes</Select.Option>
+                          </Select>
+                        </Form.Item>
 
-                <Row style={{ margin: 50 }}>
-                  <Col span={12} style={{ padding: 20 }}>
-                    <Button type="link" onClick={handleBackButtonClick}>
-                      {"< "}Back
-                    </Button>
+                        <Form.Item label="Condition" required tooltip="This is a required field">
+                          <Select
+                            placeholder="State the condition of the item"
+                            onChange={handleConditionChange}>
+                            <Select.Option value="Brand New">Brand New</Select.Option>
+                            <Select.Option value="Like New">Like New</Select.Option>
+                            <Select.Option value="Lightly Used">Lightly Used</Select.Option>
+                            <Select.Option value="Heavily Used">Heavily Used</Select.Option>
+                          </Select>
+                        </Form.Item>
 
-                    <UploadWidget
-                      setFormValues={setFormValues}
-                      formValues={formValues}
-                    />
-                    <Form form={form} layout="vertical">
-                      <Form.Item
-                        label="Item name"
-                        required
-                        tooltip="This is a required field"
-                        onChange={handleInputChange}
-                        name="item_name"
-                      >
-                        <Input placeholder="What's the name of this item?" />
-                      </Form.Item>
-                      <Form.Item
-                        label="Listing type"
-                        required
-                        tooltip="This is a required field"
-                      >
-                        <Select
-                          placeholder="Select a listing type"
-                          onChange={handleListingTypeChange}
-                        >
-                          <Select.Option value="Give">Give</Select.Option>
-                          <Select.Option value="Take">Take</Select.Option>
-                        </Select>
-                      </Form.Item>
-                      <Form.Item
-                        label="Category"
-                        required
-                        tooltip="This is a required field"
-                      >
-                        <Select
-                          placeholder="Select a category"
-                          onChange={handleCategoryChange}
-                        >
-                          <Select.Option value="Shoes">Shoes</Select.Option>
-                          <Select.Option value="Books">Books</Select.Option>
-                          <Select.Option value="Clothes">Clothes</Select.Option>
-                        </Select>
-                      </Form.Item>
+                        <Form.Item
+                          label="Description"
+                          required
+                          tooltip={{
+                            title: 'Be as descriptive as possible'
+                          }}
+                          onChange={handleInputChange}
+                          name="description">
+                          <TextArea rows={4} placeholder="Describe this item." />
+                        </Form.Item>
 
-                      <Form.Item
-                        label="Condition"
-                        required
-                        tooltip="This is a required field"
-                      >
-                        <Select
-                          placeholder="State the condition of the item"
-                          onChange={handleConditionChange}
-                        >
-                          <Select.Option value="Brand New">
-                            Brand New
-                          </Select.Option>
-                          <Select.Option value="Like New">
-                            Like New
-                          </Select.Option>
-                          <Select.Option value="Lightly Used">
-                            Lightly Used
-                          </Select.Option>
-                          <Select.Option value="Heavily Used">
-                            Heavily Used
-                          </Select.Option>
-                        </Select>
-                      </Form.Item>
+                        <Form.Item>
+                          <Button
+                            type="primary"
+                            htmlType="submit"
+                            onClick={handleSubmit}
+                            style={{
+                              marginRight: '20px'
+                            }}>
+                            List item!
+                          </Button>
+                          <Button type="link" onClick={handleBackButtonClick}>
+                            {'< '}Back
+                          </Button>
+                        </Form.Item>
+                      </Form>
+                    </Col>
+                  </div>
 
-                      <Form.Item
-                        label="Description"
-                        required
-                        tooltip={{
-                          title: "Be as descriptive as possible",
-                        }}
-                        onChange={handleInputChange}
-                        name="description"
-                      >
-                        <TextArea rows={4} placeholder="Describe this item." />
-                      </Form.Item>
-
-                      <Form.Item>
-                        <Button
-                          type="primary"
-                          htmlType="submit"
-                          onClick={handleSubmit}
-                        >
-                          List item!
-                        </Button>
-                      </Form.Item>
-                    </Form>
-                  </Col>
-                  <Col span={12} style={{ padding: 20 }}>
+                  <Col span={12} style={{ padding: 0, marginLeft: '25px' }}>
                     <Space direction="vertical" size={8}>
-                      <p>Listing Preview</p>
-                      <Space wrap size={16}>
+                      <h1>Listing Preview</h1>
+                      <Card
+                        style={{ width: 300, padding: '20px', background: '#eeeeee' }}
+                        hoverable
+                        cover={<Avatar size={128} icon={<UserOutlined />} />}>
+                        {' '}
+                        {formValues.item_name ? <Meta title={formValues.item_name} /> : <></>}
+                        {formValues.listing_type ? <p>{formValues.listing_type}</p> : <></>}
+                        {formValues.category ? (
+                          <Tag color="volcano">{formValues.category}</Tag>
+                        ) : (
+                          <></>
+                        )}
+                        {formValues.condition ? (
+                          <Tag color="cyan">{formValues.condition}</Tag>
+                        ) : (
+                          <></>
+                        )}
+                        {formValues.description ? (
+                          <p>Description: {formValues.description}</p>
+                        ) : (
+                          <></>
+                        )}
+                      </Card>
+
+                      {/* <Space wrap size={16}>
                         <Avatar size={128} icon={<UserOutlined />} />
                         {formValues.photo_url ? (
                           <p>Photo name: {formValues.photo_url.slice(62)}</p>
@@ -266,12 +245,12 @@ export default function CreateListing() {
                         )}
                       </Space>
                       {formValues.item_name ? (
-                        <p>Item name: {formValues.item_name}</p>
+                        <p className="filled">Item name: {formValues.item_name}</p>
                       ) : (
                         <p>Item name: </p>
                       )}
                       {formValues.listing_type ? (
-                        <p>Listing type: {formValues.listing_type}</p>
+                        <p className="filled">Listing type: {formValues.listing_type}</p>
                       ) : (
                         <p>Listing type: </p>
                       )}
@@ -289,16 +268,16 @@ export default function CreateListing() {
                         <p>Description: {formValues.description}</p>
                       ) : (
                         <p>Description: </p>
-                      )}
+                      )} */}
                     </Space>
                   </Col>
                 </Row>
               </>
-              <Footer style={footerStyle}> </Footer>
+              <Footer style={footerStyle}>Copyright G&T 2023</Footer>
             </Content>
           </Layout>
         </Layout>
       </ConfigProvider>
     </div>
   );
-                      }
+}

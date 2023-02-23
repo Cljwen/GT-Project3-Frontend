@@ -15,7 +15,7 @@
   height: calc(100% - 120px);
   left: 30px;
   top: 30px;
-  font-family: "Cormorant Garamond", serif;
+  font-family: 'Cormorant Garamond', serif;
 }
 
 .menu ul {
@@ -64,4 +64,19 @@
   margin-left: 10%;
   max-height: 100%;
   /* margin-left: 0.2rem; */
+}
+
+.logout {
+  font-size: 20px;
+  font-weight: bold;
+  color: #303841;
+  padding: 0;
+  border: none;
+  font-family: 'Cormorant Garamond', serif;
+  background: none;
+  cursor: pointer;
+}
+
+.logout:hover {
+  color: #ff7e55;
 }

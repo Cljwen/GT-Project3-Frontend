@@ -1,0 +1,26 @@
+.ant-form-item-label {
+  font-family: 'Cormorant Garamond', serif;
+  white-space: normal;
+  line-height: normal;
+  width: 300px;
+  padding-right: 150px;
+}
+
+.ant-btn-link:not(:disabled):hover {
+  color: #ff7e55;
+}
+
+.content {
+  width: 70%;
+  padding-left: 50px;
+  margin-left: 5%;
+  box-sizing: border-box;
+  /* padding: 20px 0; */
+}
+
+.ant-form-item {
+  /* font-family: 'Cormorant Garamond', serif; */
+  white-space: normal;
+  line-height: normal;
+  width: 400px;
+}

@@ -1,10 +1,10 @@
 // users can edit the details of their profile on this page
-import { React, useState, useEffect } from "react";
-import "./editprofile.css";
-import { Navbar } from "../../commoncomponents/Navbar/Navbar";
-import { PlusOutlined } from "@ant-design/icons";
-import { Button, Form, Input, TreeSelect, Upload, Select, Layout, notification } from "antd";
-import { useAuth0 } from "@auth0/auth0-react";
+import { React, useState, useEffect } from 'react';
+import './editprofile.css';
+import { Navbar } from '../../commoncomponents/Navbar/Navbar';
+import { PlusOutlined } from '@ant-design/icons';
+import { Button, Form, Input, TreeSelect, Upload, Select, Layout, notification } from 'antd';
+import { useAuth0 } from '@auth0/auth0-react';
 
 import {
   Footer,
@@ -12,13 +12,15 @@ import {
   Content,
   siderStyle,
   contentStyle,
-} from "../globalstyles";
-import { useNavigate } from "react-router-dom";
-import { Link, useParams } from "react-router-dom";
-import "./editprofile.css";
-import axios from "axios";
-import { UploadWidget } from "./UploadWidget";
-import { SmileOutlined, FrownOutlined } from "@ant-design/icons";
+  footerStyle,
+  replicateFooterStyle
+} from '../globalstyles';
+import { useNavigate } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import './editprofile.css';
+import axios from 'axios';
+import { UploadWidget } from './UploadWidget';
+import { SmileOutlined, FrownOutlined } from '@ant-design/icons';
 
 export function EditProfile() {
   const { TextArea } = Input;
@@ -33,24 +35,6 @@ export function EditProfile() {
     </Form.Item>
   );
 
-  const footerStyle = {
-    textAlign: "center",
-    color: "#fff",
-    backgroundColor: "#303841",
-    position: "fixed",
-    bottom: 0,
-    width: "100%",
-  };
-
-  const replicateFooterStyle = {
-    left: 0,
-    bottom: 0,
-    width: "100%",
-    // position: 'absolute',
-    backgroundColor: "#303841",
-    position: "fixed",
-  };
-
   const { getAccessTokenSilently, user } = useAuth0();
   const [accessToken, setAccessToken] = useState(null);
   const [formValues, setFormValues] = useState({});
@@ -59,29 +43,29 @@ export function EditProfile() {
   const openSuccessNotification = (placement) => {
     api.info({
       message: `Yippee!`,
-      description: "Edit profile successful!",
+      description: 'Edit profile successful!',
       placement,
       icon: (
         <SmileOutlined
           style={{
-            color: "green",
+            color: 'green'
           }}
         />
-      ),
+      )
     });
   };
   const openFailureNotification = (placement) => {
     api.info({
       message: `Oh no!`,
-      description: "Edit profile unsuccessful!",
+      description: 'Edit profile unsuccessful!',
       placement,
       icon: (
         <FrownOutlined
           style={{
-            color: "red",
+            color: 'red'
           }}
         />
-      ),
+      )
     });
   };
 
@@ -116,11 +100,11 @@ export function EditProfile() {
       .put(`http://localhost:3000/${user_id}/settings`, formValues, configs)
       .then(function (response) {
         console.log(response);
-        openSuccessNotification("top");
+        openSuccessNotification('top');
       })
       .catch(function (error) {
         console.log(error);
-        openFailureNotification("top");
+        openFailureNotification('top');
       });
   };
 
@@ -138,112 +122,76 @@ export function EditProfile() {
         </Sider>
         <Layout>
           <Content style={contentStyle}>
-            <div>
-              {/* className={styles.formBody}> */}
-              <Form
-                labelCol={{
-                  span: 8,
-                }}
-                wrapperCol={{
-                  span: 20,
-                }}
-                layout="horizontal"
-                // onValuesChange={onFormLayoutChange}
-                // disabled={componentDisabled}
-                style={{
-                  maxWidth: 800,
-                }}
-              >
-                <Form.Item label="Current Profile Photo" name="profile_photo">
-                  <img alt="" src={formValues.profile_photo} width="200" />
-                  <br></br>
-                  <UploadWidget
-                    setFormValues={setFormValues}
-                    formValues={formValues}
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="Username"
-                  name="username"
-                  onChange={handleInputChange}
-                >
-                  <Input placeholder={formValues.username} />
-                </Form.Item>
-                <Form.Item
-                  label="First Name"
-                  name="first_name"
-                  onChange={handleInputChange}
-                >
-                  <Input placeholder={formValues.first_name} />
-                </Form.Item>
-                <Form.Item
-                  label="Last Name"
-                  name="last_name"
-                  onChange={handleInputChange}
-                >
-                  <Input placeholder={formValues.last_name} />
-                </Form.Item>
-                <Form.Item
-                  label="Email"
-                  name="email"
-                  onChange={handleInputChange}
-                >
-                  <Input placeholder={formValues.email} />
-                </Form.Item>
+            <div className="container">
+              <div className="content">
+                <Form
+                  labelCol={{
+                    span: 8
+                  }}
+                  wrapperCol={{
+                    span: 20
+                  }}
+                  layout="horizontal"
+                  // onValuesChange={onFormLayoutChange}
+                  // disabled={componentDisabled}
+                  style={{
+                    maxWidth: 800
+                  }}>
+                  <Form.Item label="Current Profile Photo" name="profile_photo">
+                    <img alt="" src={formValues.profile_photo} width="200" />
+                    <br></br>
+                    <UploadWidget setFormValues={setFormValues} formValues={formValues} />
+                  </Form.Item>
+                  <Form.Item label="Username" name="username" onChange={handleInputChange}>
+                    <Input placeholder={formValues.username} />
+                  </Form.Item>
+                  <Form.Item label="First Name" name="first_name" onChange={handleInputChange}>
+                    <Input placeholder={formValues.first_name} />
+                  </Form.Item>
+                  <Form.Item label="Last Name" name="last_name" onChange={handleInputChange}>
+                    <Input placeholder={formValues.last_name} />
+                  </Form.Item>
+                  <Form.Item label="Email" name="email" onChange={handleInputChange}>
+                    <Input placeholder={formValues.email} />
+                  </Form.Item>
 
-                <Form.Item
-                  name="phone_number"
-                  label="Phone Number"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your phone number!",
-                    },
-                  ]}
-                  onChange={handleInputChange}
-                >
-                  <Input
-                    addonBefore="+65"
-                    placeholder={formValues.phone_number}
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="Address"
-                  name="address"
-                  onChange={handleInputChange}
-                >
-                  <Input placeholder={formValues.address} />
-                </Form.Item>
-                <Form.Item
-                  label="Postal Code"
-                  name="postal_code"
-                  onChange={handleInputChange}
-                >
-                  <Input placeholder={formValues.postal_code} />
-                </Form.Item>
-                <Form.Item
-                  label="Nearest MRT"
-                  name="mrt"
-                  onChange={handleInputChange}
-                >
-                  <Input placeholder={formValues.mrt} />
-                </Form.Item>
+                  <Form.Item
+                    name="phone_number"
+                    label="Phone Number"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please input your phone number!'
+                      }
+                    ]}
+                    onChange={handleInputChange}>
+                    <Input addonBefore="+65" placeholder={formValues.phone_number} />
+                  </Form.Item>
+                  <Form.Item label="Address" name="address" onChange={handleInputChange}>
+                    <Input placeholder={formValues.address} />
+                  </Form.Item>
+                  <Form.Item label="Postal Code" name="postal_code" onChange={handleInputChange}>
+                    <Input placeholder={formValues.postal_code} />
+                  </Form.Item>
+                  <Form.Item label="Nearest MRT" name="mrt" onChange={handleInputChange}>
+                    <Input placeholder={formValues.mrt} />
+                  </Form.Item>
 
-                <Form.Item>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    onClick={handleSubmit}
-                  >
-                    Save Changes
-                  </Button>
-                  <Link to={`/${user_id}/profile`}>Back to Profile</Link>
-                </Form.Item>
-              </Form>
-              {/* <Logout /> */}
+                  <Form.Item>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      style={{ backgroundColor: 'white', color: '#ff7e55', marginRight: '20px' }}
+                      onClick={handleSubmit}>
+                      Save Changes
+                    </Button>
+                    <Link to={`/${user_id}/profile`}>Back to Profile</Link>
+                  </Form.Item>
+                </Form>
+              </div>
             </div>
           </Content>
-          <Footer style={footerStyle}></Footer>
+          <Footer style={footerStyle}>Copyright G&T 2023</Footer>
         </Layout>
       </Layout>
     </div>

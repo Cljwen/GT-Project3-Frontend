@@ -5,12 +5,12 @@ body {
   background-color: #fff;
 }
 
-.container {
+/* .container {
   width: 100%;
   box-sizing: border-box;
   padding: 15px;
   display: flex;
-}
+} */
 
 .menu {
   width: 12%;

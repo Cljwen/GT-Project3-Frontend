@@ -1,11 +1,12 @@
 // user profile page
-import React from "react";
+import React from 'react';
 // import styles from "../pages/ProfilePage/profile.module.css";
-import logo from "../../assets/images/logo.png";
-import styles from "./navbar.module.css";
-import { useAuth0 } from "@auth0/auth0-react";
-import HomePage from "../../pages/HomePage";
-import { Link, useParams } from "react-router-dom";
+import logo from '../../assets/images/logo.png';
+import './navbar.css';
+import { useAuth0 } from '@auth0/auth0-react';
+import HomePage from '../../pages/HomePage';
+import { Link, useParams } from 'react-router-dom';
+import { Button } from 'antd';
 
 export function Navbar() {
   let { user_id } = useParams();
@@ -13,12 +14,12 @@ export function Navbar() {
 
   return (
     <>
-      <div className={styles.container}>
-        <div className={styles.menu}>
+      <div className="container">
+        <div className="menu">
           <ul>
-            <div className={styles.profile}>
+            <div className="profile">
               <a href="homepage">
-                <div className={styles.logo}>
+                <div className="logo">
                   <img src={logo} alt="logo" />
                 </div>
               </a>
@@ -36,9 +37,11 @@ export function Navbar() {
               <Link to={`../../${user_id}/createlisting`}>Create Listing</Link>
             </li>
             <li>
-              <a href="/">
-                <div onClick={logout}>Logout</div>
-              </a>
+              {/* <a href="/"> */}
+              <button className="logout" onClick={logout}>
+                Logout
+              </button>
+              {/* </a> */}
             </li>
           </ul>
         </div>

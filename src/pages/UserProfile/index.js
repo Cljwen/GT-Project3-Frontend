@@ -1,15 +1,15 @@
 // user profile page
-import React, { useState, useEffect } from "react";
-import "./userprofile.css";
-import { Card, Button, Tag, Layout, notification, Space } from "antd";
+import React, { useState, useEffect } from 'react';
+import './userprofile.css';
+import { Card, Button, Tag, Layout, notification, Space } from 'antd';
 import {
   EditOutlined,
   DeleteOutlined,
   EyeOutlined,
   WarningOutlined,
   SmileOutlined,
-  FrownOutlined,
-} from "@ant-design/icons";
+  FrownOutlined
+} from '@ant-design/icons';
 import {
   Sider,
   Footer,
@@ -17,12 +17,12 @@ import {
   siderStyle,
   contentStyle,
   footerStyle,
-  replicateFooterStyle,
-} from "../globalstyles.js";
-import { Navbar } from "../../commoncomponents/Navbar/Navbar";
-import axios from "axios";
-import { useAuth0 } from "@auth0/auth0-react";
-import { Link, useParams } from "react-router-dom";
+  replicateFooterStyle
+} from '../globalstyles.js';
+import { Navbar } from '../../commoncomponents/Navbar/Navbar';
+import axios from 'axios';
+import { useAuth0 } from '@auth0/auth0-react';
+import { Link, useParams } from 'react-router-dom';
 
 const { Meta } = Card;
 
@@ -31,7 +31,7 @@ export function UserProfile() {
   const [accessToken, setAccessToken] = useState(null);
   const [userProfile, setUserProfile] = useState({});
   const [userListings, setUserListings] = useState([]);
-  const [dateSlicer, setDateSlicer] = useState("");
+  const [dateSlicer, setDateSlicer] = useState('');
   const [api, contextHolder] = notification.useNotification();
   let { user_id } = useParams();
 
@@ -42,48 +42,43 @@ export function UserProfile() {
         <Button
           type="primary"
           size="small"
-          style={{ backgroundColor: "#ff7e55" }}
+          style={{ backgroundColor: '#ff7e55' }}
           onClick={() => {
             axios
-              .delete(
-                `http://localhost:3000/delete/${listingIdToBeDeleted}`,
-                configs
-              )
+              .delete(`http://localhost:3000/delete/${listingIdToBeDeleted}`, configs)
               .then(function (response) {
                 console.log(response.data);
                 if (response.data === 1) {
-                  openDeleteSuccessNotification("top");
+                  openDeleteSuccessNotification('top');
                 } else {
-                  openDeleteFailureNotification("top");
+                  openDeleteFailureNotification('top');
                 }
               })
               .catch(function (error) {
                 console.log(error);
-                openDeleteFailureNotification("top");
+                openDeleteFailureNotification('top');
               });
             api.destroy();
-          }}
-        >
+          }}>
           Confirm
         </Button>
         <Button
           type="primary"
           size="small"
-          style={{ backgroundColor: "#ff7e55" }}
-          onClick={() => api.destroy(key)}
-        >
+          style={{ backgroundColor: '#ff7e55' }}
+          onClick={() => api.destroy(key)}>
           Cancel
         </Button>
       </Space>
     );
     api.open({
-      message: "Are you sure?",
+      message: 'Are you sure?',
       description: "Clicking 'Confirm' will delete this listing permanently!",
       placement,
-      icon: <WarningOutlined style={{ color: "red" }} />,
+      icon: <WarningOutlined style={{ color: 'red' }} />,
       duration: 0,
       btn,
-      key,
+      key
     });
   };
   const openDeleteSuccessNotification = (placement) => {
@@ -107,29 +102,29 @@ export function UserProfile() {
       });
     api.info({
       message: `Yippee!`,
-      description: "Delete listing successful!",
+      description: 'Delete listing successful!',
       placement,
       icon: (
         <SmileOutlined
           style={{
-            color: "green",
+            color: 'green'
           }}
         />
-      ),
+      )
     });
   };
   const openDeleteFailureNotification = (placement) => {
     api.info({
       message: `Oh no!`,
-      description: "Delete listing unsuccessful!",
+      description: 'Delete listing unsuccessful!',
       placement,
       icon: (
         <FrownOutlined
           style={{
-            color: "red",
+            color: 'red'
           }}
         />
-      ),
+      )
     });
   };
 
@@ -198,64 +193,57 @@ export function UserProfile() {
                   <h2>Nearest MRT station:</h2>
                   <div>{userProfile.mrt}</div>
                 </div>
-                <Button className="btn">
+                <Button className="btn" style={{ backgroundColor: 'white', color: '#ff7e55' }}>
                   <a href="settings">Update Profile</a>
                 </Button>
               </div>
             </div>
             <h3 className="content">Personal Listings</h3>
             <div className="listings">
-              {userListings.map(
-                ({ item_name, photo_url, description, condition, id }) => {
-                  return (
-                    <Card
-                      key={description}
-                      hoverable
-                      style={{
-                        width: 300,
-                        marginRight: 10,
-                        marginBottom: 20,
-                        display: "inline-block",
-                        wordWrap: "break-word",
-                      }}
-                      cover={<img alt="" src={photo_url} />}
-                      actions={[
-                        <Link
-                          to={`http://localhost:3001/${user_id}/listings/${id}`}
-                        >
-                          <EyeOutlined key="view" />
-                        </Link>,
-                        <Link
-                          to={`http://localhost:3001/${user_id}/editlisting/${id}`}
-                        >
-                          <EditOutlined key="edit" />
-                        </Link>,
-                        // <Button
-                        //   type="primary"
-                        //   onClick={() => openNotificationWithIcon("top")}
-                        //   icon={<DeleteOutlined />}
-                        // >
-                        //   Delete
-                        // </Button>,
-                        <DeleteOutlined
-                          key="delete"
-                          onClick={() => {
-                            openNotificationWithIcon("top", id);
-                          }}
-                        />,
-                      ]}
-                    >
-                      <Meta
-                        style={{ wordWrap: "break-word" }}
-                        title={item_name}
-                        description={description}
+              {userListings.map(({ item_name, photo_url, description, condition, id }) => {
+                return (
+                  <Card
+                    key={description}
+                    hoverable
+                    style={{
+                      width: 300,
+                      marginRight: 10,
+                      marginBottom: 20,
+                      display: 'inline-block',
+                      wordWrap: 'break-word'
+                    }}
+                    cover={<img alt="" src={photo_url} />}
+                    actions={[
+                      <Link to={`http://localhost:3001/${user_id}/listings/${id}`}>
+                        <EyeOutlined key="view" />
+                      </Link>,
+                      <Link to={`http://localhost:3001/${user_id}/editlisting/${id}`}>
+                        <EditOutlined key="edit" />
+                      </Link>,
+                      // <Button
+                      //   type="primary"
+                      //   onClick={() => openNotificationWithIcon("top")}
+                      //   icon={<DeleteOutlined />}
+                      // >
+                      //   Delete
+                      // </Button>,
+                      <DeleteOutlined
+                        key="delete"
+                        onClick={() => {
+                          openNotificationWithIcon('top', id);
+                        }}
                       />
-                      <br></br>
-                      <Tag color="orange">{condition}</Tag>
-                    </Card>
-                  );
-                }
-              )}
+                    ]}>
+                    <Meta
+                      style={{ wordWrap: 'break-word' }}
+                      title={item_name}
+                      description={description}
+                    />
+                    <br></br>
+                    <Tag color="orange">{condition}</Tag>
+                  </Card>
+                );
+              })}
             </div>
             <Footer style={footerStyle}> Copyright© G&T 2023</Footer>
           </Content>
