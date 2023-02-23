@@ -43,7 +43,7 @@ export function CreateProfile() {
     from: "frostarcher7@gmail.com", // Change to your verified sender
     subject: "Give&Take - Your account has been created!",
     text: `Hi ${formValues.username}, Thank you for creating an account with Give&Take! You may start putting your listings!`,
-    html: `<img alt="" src="https://res.cloudinary.com/dwgeik14h/image/upload/v1675348723/give_and_take_logo.png" /><br></br><h2>Hi ${formValues.username}!</h2><br></br><p>Thank you for creating an account with Give&Take! You may start putting your listings!</p><br></br><p>Login now by clicking <a href="http://localhost:3001">here</a>!</p><br></br><p>Regards,</p></br><p>Give & Take team</p>`,
+    html: `<img alt="" width="300" src="https://res.cloudinary.com/dwgeik14h/image/upload/v1675348723/give_and_take_logo.png" /><br></br><h2>Hi ${formValues.username}!</h2><br></br><p>Thank you for creating an account with Give&Take! You may start putting your listings!</p><br></br><p>Login now by clicking <a href="http://localhost:3001">here</a>!</p><br></br><p>Regards,</p></br><p>Give & Take team</p>`,
   };
   const openSuccessNotification = (placement) => {
     api.info({
@@ -242,6 +242,7 @@ export function CreateProfile() {
                       type="primary"
                       htmlType="submit"
                       onClick={handleSubmit}
+                      style={{marginLeft: 266}}
                     >
                       Save Changes
                     </Button>

@@ -1,9 +1,8 @@
-import { useAuth0 } from '@auth0/auth0-react';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './loading.css';
-import { Alert, Space, Spin } from 'antd';
+import { useAuth0 } from "@auth0/auth0-react";
+import { Alert, Spin } from "antd";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function LoadingPage() {
   const navigate = useNavigate();
