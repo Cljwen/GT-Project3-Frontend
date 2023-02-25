@@ -144,7 +144,7 @@ export function UserProfile() {
     if (user && !accessToken) {
       getAccessTokenSilently().then((jwt) => setAccessToken(jwt));
     }
-  }, [user]);
+  }, [user,accessToken]);
 
   const configs = {};
   if (accessToken) configs.headers = { Authorization: `Bearer ${accessToken}` };
@@ -240,7 +240,7 @@ export function UserProfile() {
                   userListings.map(({ item_name, photo_url, description, condition, id }) => {
                     return (
                       <Card
-                        key={description}
+                        key={id}
                         hoverable
                         style={{
                           width: 300,

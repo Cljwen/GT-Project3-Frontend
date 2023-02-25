@@ -113,7 +113,7 @@ export function EditProfile() {
   };
 
   const handleBackButtonClick = () => {
-    navigate(-1);
+    navigate(`/${original_id}/profile`);
   };
 
   return (
@@ -179,7 +179,7 @@ export function EditProfile() {
                           <Input placeholder={formValues.last_name} />
                         </Form.Item>
                         <Form.Item label="Email" name="email" onChange={handleInputChange}>
-                          <Input placeholder={formValues.email} />
+                          <Input disabled placeholder={formValues.email} />
                         </Form.Item>
 
                         <Form.Item
