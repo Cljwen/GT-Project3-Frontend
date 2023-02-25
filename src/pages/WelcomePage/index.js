@@ -33,11 +33,11 @@ const headerStyle = {
 };
 const contentStyle = {
   textAlign: 'center',
-  minHeight: 400,
+  minHeight: 350,
   lineHeight: '120px',
   color: '#303841',
   backgroundColor: '#eeeeee',
-  paddingTop: '50px'
+  paddingTop: '40px'
 };
 const footerStyle = {
   textAlign: 'center',
@@ -99,7 +99,7 @@ export default function WelcomePage() {
             <Space wrap>
               <Button
                 type="primary"
-                className={styles.signupbtn}
+                
                 style={{ backgroundColor: '#ff7e55', color: 'white' }}
                 onClick={loginWithRedirect}>
                 Sign Up / Login
@@ -124,6 +124,7 @@ export default function WelcomePage() {
                 <Col span={6}>
                   <Card
                     hoverable
+                    onClick={loginWithRedirect}
                     style={{ width: 300, margin: 20 }}
                     cover={
                       <img

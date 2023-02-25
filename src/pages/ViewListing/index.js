@@ -2,13 +2,28 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Card, Carousel, Image, Avatar } from 'antd';
-import { Layout, Button, Input, Row, Col, ConfigProvider } from 'antd';
-import { LikeOutlined, WhatsAppOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { Layout, Button, Input, Row, Col, ConfigProvider, Tag } from 'antd';
+import {
+  LikeOutlined,
+  WhatsAppOutlined,
+  EnvironmentOutlined,
+  RollbackOutlined,
+  TagOutlined
+} from '@ant-design/icons';
 import { Navbar } from '../../commoncomponents/Navbar/Navbar';
-import './viewlisting.css';
+import { Loading } from '../../commoncomponents/Loading';
+import styles from './viewlisting.module.css';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Sider, Footer, Content, siderStyle, contentStyle } from '../globalstyles.js';
+import {
+  Sider,
+  Footer,
+  Content,
+  siderStyle,
+  contentStyle,
+  footerStyle,
+  replicateFooterStyle
+} from '../globalstyles.js';
 import { useAuth0 } from '@auth0/auth0-react';
 
 export default function ViewListing() {
@@ -19,10 +34,16 @@ export default function ViewListing() {
   const [userReturned, setUserReturned] = useState({});
   const { getAccessTokenSilently, user } = useAuth0();
   const [accessToken, setAccessToken] = useState(null);
+  const [listingLiked, setListingLiked] = useState(false);
+  const [dateSlicer, setDateSlicer] = useState('');
   let { user_id, listing_id } = useParams();
 
   const handleBackButtonClick = () => {
     navigate(-1);
+  };
+
+  const handleLike = () => {
+    setListingLiked(!listingLiked);
   };
 
   useEffect(() => {
@@ -41,6 +62,7 @@ export default function ViewListing() {
       .then(function (response) {
         console.log(response.data);
         setListingReturned(response.data);
+        setDateSlicer(response.data.createdAt.slice(0, 10));
       })
       .catch(function (error) {
         console.log(error);
@@ -64,24 +86,6 @@ export default function ViewListing() {
     }
   }, [listingReturned, userReturned]);
 
-  const footerStyle = {
-    textAlign: 'center',
-    color: '#fff',
-    backgroundColor: '#303841',
-    position: 'fixed',
-    bottom: 0,
-    width: '100%'
-  };
-
-  const replicateFooterStyle = {
-    left: 0,
-    bottom: 0,
-    width: '100%',
-    // position: 'absolute',
-    backgroundColor: '#303841',
-    position: 'fixed'
-  };
-
   return (
     <div>
       <ConfigProvider
@@ -97,58 +101,94 @@ export default function ViewListing() {
           </Sider>
           <Layout>
             <Content style={contentStyle}>
-              <Button
-                type="link"
-                style={{ marginLeft: 50, marginTop: 50 }}
-                onClick={handleBackButtonClick}>
-                {'< '}Back
-              </Button>
-              <div className="listing-right">
-                <Image.PreviewGroup>
-                  <Carousel dotPosition="bottom" infinite={false} slidesToShow={1}>
-                    <Image src={listingReturned.photo_url} height={300} />
-                  </Carousel>
-                </Image.PreviewGroup>
+              {user ? (
+                <div className={styles.listingRight}>
+                  <Row gutter={10}>
+                    <Col span={17}>
+                      <div className={styles.card}>
+                        <Image.PreviewGroup>
+                          <Image
+                            src={listingReturned.photo_url}
+                            style={{
+                              width: 400,
+                              height: 480,
+                              objectFit: 'contain'
+                            }}
+                          />
+                        </Image.PreviewGroup>
+                        <div className={styles.text}>
+                          <p className={styles.listingName}>{listingReturned.item_name}</p>
+                          <p>{listingReturned.description}</p>
+                          <Tag color="cyan">{listingReturned.condition}</Tag>
+                          <Tag color="volcano">{listingReturned.category}</Tag>
+                          <p className={styles.tag}>
+                            <TagOutlined style={{ color: '#ff7e55', marginRight: '10px' }} />
 
-                <Row gutter={10}>
-                  <Col span={18}>
-                    <h1>{listingReturned.item_name}</h1>
-                    <p>{listingReturned.description}</p>
-                    <p>{listingReturned.condition}</p>
-                  </Col>
+                            {listingReturned.listing_type}
+                          </p>
+                          <p className={styles.created}>Listing created on:</p>
+                          <p className={styles.tag}>{dateSlicer}</p>
+                        </div>
+                      </div>
+                    </Col>
 
-                  <Col span={6}>
-                    <Card>
-                      <Meta
-                        avatar={
-                          <Avatar src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80" />
-                        }
-                        title={userReturned.username}
-                        description={
-                          <>
-                            <b>
-                              <EnvironmentOutlined /> {userReturned.mrt}
-                            </b>
-                            <br />
-                            <Button type="primary">
-                              <a
-                                aria-label="Chat on Whatsapp"
-                                href={`https://wa.me/65${userReturned.phone_number}`}>
-                                <WhatsAppOutlined />
-                                Chat Now
-                              </a>
-                            </Button>
-                            <Button type="default">
-                              <LikeOutlined />
-                              Like Listing
-                            </Button>
-                          </>
-                        }
-                      />
-                    </Card>
-                  </Col>
-                </Row>
-              </div>
+                    <Col span={6}>
+                      <Card>
+                        <Meta
+                          avatar={<Avatar src={userReturned.profile_photo} />}
+                          title={userReturned.username}
+                          description={
+                            <>
+                              <b>
+                                <EnvironmentOutlined /> {userReturned.mrt}
+                              </b>
+                              <br />
+                              <Button type="primary">
+                                <a
+                                  aria-label="Chat on Whatsapp"
+                                  href={`https://wa.me/65${userReturned.phone_number}`}>
+                                  <WhatsAppOutlined style={{ marginRight: '10px' }} />
+                                  Chat Now
+                                </a>
+                              </Button>
+                              <Button
+                                onClick={handleLike}
+                                type="default"
+                                className={listingLiked ? 'clickedBtn' : ''}>
+                                {listingLiked ? (
+                                  <>
+                                    <LikeOutlined style={{ marginRight: '10px' }} /> Liked
+                                  </>
+                                ) : (
+                                  <>
+                                    <LikeOutlined style={{ marginRight: '10px' }} />
+                                    Like
+                                  </>
+                                )}
+                              </Button>
+                            </>
+                          }
+                        />
+                      </Card>
+                    </Col>
+                  </Row>
+                  <Button
+                    type="link"
+                    style={{
+                      marginLeft: 590,
+                      marginTop: 20,
+                      marginBottom: 20,
+                      backgroundColor: '#ff7e55',
+                      color: 'white'
+                    }}
+                    onClick={handleBackButtonClick}>
+                    <RollbackOutlined />
+                    Back to more listings
+                  </Button>
+                </div>
+              ) : (
+                <Loading />
+              )}
             </Content>
             <Footer style={footerStyle}>Copyright © Give & Take 2023</Footer>
           </Layout>

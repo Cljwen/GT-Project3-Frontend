@@ -1,0 +1,48 @@
+.listingRight {
+  margin-top: 30px;
+  margin-left: 50px;
+  /* margin: 10px 50px; */
+}
+
+.card {
+  background-color: #eeeeee;
+  border-radius: 20px;
+  box-shadow: 0 0 5px 1px #dddddd;
+  box-sizing: border-box;
+  max-height: 100%;
+  display: flex;
+  padding: 30px;
+  width: 98%;
+}
+
+.ant-btn-link {
+  color: #ff5722;
+  line-height: 0;
+  transition: none;
+}
+
+.ant-btn-link:not(:disabled):hover {
+  color: #ff7e55;
+}
+
+.clickedBtn {
+  color: #ff5722;
+}
+
+.listingName {
+  font-size: large;
+  font-weight: bold;
+  color: #ff5722;
+}
+
+.tag {
+  font-weight: bold;
+}
+
+.created {
+  font-style: italic;
+}
+
+.text {
+  margin-left: 15px;
+}
