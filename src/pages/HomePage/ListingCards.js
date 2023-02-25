@@ -11,7 +11,7 @@ import styles from './homepage.module.css';
 import { Col, Row } from 'antd';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import CategorySlider from './CategorySlider';
 const { Meta } = Card;
 

@@ -16,7 +16,7 @@ export function Navbar() {
           <ul>
             <div className={styles.profile}>
               <div className={styles.logo}>
-                <Link to={`../../${user_id}/homepage`}>
+                <Link to={`../../${original_id}/homepage`}>
                   <img src={logo} alt="logo" />
                 </Link>
               </div>
