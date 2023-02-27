@@ -1,6 +1,6 @@
 // user profile page
-import React, { useState, useEffect } from 'react';
-import styles from './userprofile.module.css';
+import React, { useState, useEffect } from "react";
+import styles from "./userprofile.module.css";
 import {
   Card,
   Button,
@@ -12,8 +12,8 @@ import {
   Row,
   Col,
   Avatar,
-  ConfigProvider
-} from 'antd';
+  ConfigProvider,
+} from "antd";
 import {
   EditOutlined,
   DeleteOutlined,
@@ -21,8 +21,8 @@ import {
   WarningOutlined,
   SmileOutlined,
   FrownOutlined,
-  HeartOutlined
-} from '@ant-design/icons';
+  HeartOutlined,
+} from "@ant-design/icons";
 import {
   Sider,
   Footer,
@@ -30,12 +30,12 @@ import {
   siderStyle,
   contentStyle,
   footerStyle,
-  replicateFooterStyle
-} from '../globalstyles.js';
-import { Navbar } from '../../commoncomponents/Navbar/Navbar';
-import axios from 'axios';
-import { useAuth0 } from '@auth0/auth0-react';
-import { Link, useParams } from 'react-router-dom';
+  replicateFooterStyle,
+} from "../globalstyles.js";
+import { Navbar } from "../../commoncomponents/Navbar/Navbar";
+import axios from "axios";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Link, useParams } from "react-router-dom";
 
 const { Meta } = Card;
 
@@ -44,7 +44,7 @@ export function UserProfile() {
   const [accessToken, setAccessToken] = useState(null);
   const [userProfile, setUserProfile] = useState({});
   const [userListings, setUserListings] = useState([]);
-  const [dateSlicer, setDateSlicer] = useState('');
+  const [dateSlicer, setDateSlicer] = useState("");
   const [api, contextHolder] = notification.useNotification();
   let { original_id } = useParams();
 
@@ -55,43 +55,48 @@ export function UserProfile() {
         <Button
           type="primary"
           size="small"
-          style={{ backgroundColor: '#ff7e55' }}
+          style={{ backgroundColor: "#ff7e55" }}
           onClick={() => {
             axios
-              .delete(`http://localhost:3000/delete/${listingIdToBeDeleted}`, configs)
+              .delete(
+                `http://localhost:3000/delete/${listingIdToBeDeleted}`,
+                configs
+              )
               .then(function (response) {
                 console.log(response.data);
                 if (response.data === 1) {
-                  openDeleteSuccessNotification('top');
+                  openDeleteSuccessNotification("top");
                 } else {
-                  openDeleteFailureNotification('top');
+                  openDeleteFailureNotification("top");
                 }
               })
               .catch(function (error) {
                 console.log(error);
-                openDeleteFailureNotification('top');
+                openDeleteFailureNotification("top");
               });
             api.destroy();
-          }}>
+          }}
+        >
           Confirm
         </Button>
         <Button
           type="primary"
           size="small"
-          style={{ backgroundColor: '#ff7e55' }}
-          onClick={() => api.destroy(key)}>
+          style={{ backgroundColor: "#ff7e55" }}
+          onClick={() => api.destroy(key)}
+        >
           Cancel
         </Button>
       </Space>
     );
     api.open({
-      message: 'Are you sure?',
+      message: "Are you sure?",
       description: "Clicking 'Confirm' will delete this listing permanently!",
       placement,
-      icon: <WarningOutlined style={{ color: 'red' }} />,
+      icon: <WarningOutlined style={{ color: "red" }} />,
       duration: 0,
       btn,
-      key
+      key,
     });
   };
   const openDeleteSuccessNotification = (placement) => {
@@ -115,29 +120,29 @@ export function UserProfile() {
       });
     api.info({
       message: `Yippee!`,
-      description: 'Delete listing successful!',
+      description: "Delete listing successful!",
       placement,
       icon: (
         <SmileOutlined
           style={{
-            color: 'green'
+            color: "green",
           }}
         />
-      )
+      ),
     });
   };
   const openDeleteFailureNotification = (placement) => {
     api.info({
       message: `Oh no!`,
-      description: 'Delete listing unsuccessful!',
+      description: "Delete listing unsuccessful!",
       placement,
       icon: (
         <FrownOutlined
           style={{
-            color: 'red'
+            color: "red",
           }}
         />
-      )
+      ),
     });
   };
 
@@ -176,25 +181,27 @@ export function UserProfile() {
       <ConfigProvider
         theme={{
           token: {
-            colorPrimary: '#ff7e55'
-          }
-        }}>
+            colorPrimary: "#ff7e55",
+          },
+        }}
+      >
         {contextHolder}
         <Layout>
           <Sider width={250} style={siderStyle}>
             <Navbar />
             {userListings.length > 0 ? (
-              <Footer style={replicateFooterStyle}>{' _'}</Footer>
+              <Footer style={replicateFooterStyle}>{" _"}</Footer>
             ) : (
               <Footer
                 style={{
                   left: 0,
                   bottom: 0,
-                  width: '100%',
-                  position: 'absolute',
-                  backgroundColor: '#303841'
-                }}>
-                {' _'}
+                  width: "100%",
+                  position: "absolute",
+                  backgroundColor: "#303841",
+                }}
+              >
+                {" _"}
               </Footer>
             )}
           </Sider>
@@ -214,24 +221,33 @@ export function UserProfile() {
                         <Col span={6}>
                           <div
                             style={{
-                              display: 'flex',
-                              flexDirection: 'column',
-                              alignItems: 'center'
-                            }}>
-                            <Avatar shape="round" size={100} src={userProfile.profile_photo} />
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Avatar
+                              shape="round"
+                              size={100}
+                              src={userProfile.profile_photo}
+                            />
                           </div>
                           <h1>{userProfile.username}</h1>
-                          <p className={styles.joineddate} style={{ margin: 0 }}>
+                          <p
+                            className={styles.joineddate}
+                            style={{ margin: 0 }}
+                          >
                             Joined since {dateSlicer}
                           </p>
                         </Col>
                         <Col span={8}>
                           <div
                             style={{
-                              display: 'flex',
-                              flexDirection: 'column',
-                              marginLeft: '40px'
-                            }}>
+                              display: "flex",
+                              flexDirection: "column",
+                              marginLeft: "40px",
+                            }}
+                          >
                             <h2 className={styles.fullname}>Full Name:</h2>
                             <div>
                               {userProfile.first_name} {userProfile.last_name}
@@ -269,43 +285,50 @@ export function UserProfile() {
               <h3 className={styles.listingHeader}>Personal Listings</h3>
               <div className={styles.listings}>
                 {userListings.length > 0 ? (
-                  userListings.map(({ item_name, photo_url, description, condition, id }) => {
-                    return (
-                      <Card
-                        key={description}
-                        hoverable
-                        style={{
-                          width: 300,
-                          marginRight: 10,
-                          marginBottom: 20,
-                          display: 'inline-block',
-                          wordWrap: 'break-word'
-                        }}
-                        cover={<img alt="" src={photo_url} />}
-                        actions={[
-                          <Link to={`http://localhost:3001/${original_id}/userlistings/${id}`}>
-                            <EyeOutlined key="view" />
-                          </Link>,
-                          <Link to={`http://localhost:3001/${original_id}/editlisting/${id}`}>
-                            <EditOutlined key="edit" />
-                          </Link>,
-                          <DeleteOutlined
-                            key="delete"
-                            onClick={() => {
-                              openNotificationWithIcon('top', id);
-                            }}
+                  userListings.map(
+                    ({ item_name, photo_url, description, condition, id }) => {
+                      return (
+                        <Card
+                          key={description}
+                          hoverable
+                          style={{
+                            width: 300,
+                            marginRight: 10,
+                            marginBottom: 20,
+                            display: "inline-block",
+                            wordWrap: "break-word",
+                          }}
+                          cover={<img alt="" src={photo_url} />}
+                          actions={[
+                            <Link
+                              to={`http://localhost:3001/${original_id}/userlistings/${id}`}
+                            >
+                              <EyeOutlined key="view" />
+                            </Link>,
+                            <Link
+                              to={`http://localhost:3001/${original_id}/editlisting/${id}`}
+                            >
+                              <EditOutlined key="edit" />
+                            </Link>,
+                            <DeleteOutlined
+                              key="delete"
+                              onClick={() => {
+                                openNotificationWithIcon("top", id);
+                              }}
+                            />,
+                          ]}
+                        >
+                          <Meta
+                            style={{ wordWrap: "break-word" }}
+                            title={item_name}
+                            description={description}
                           />
-                        ]}>
-                        <Meta
-                          style={{ wordWrap: 'break-word' }}
-                          title={item_name}
-                          description={description}
-                        />
-                        <br></br>
-                        <Tag color="orange">{condition}</Tag>
-                      </Card>
-                    );
-                  })
+                          <br></br>
+                          <Tag color="orange">{condition}</Tag>
+                        </Card>
+                      );
+                    }
+                  )
                 ) : (
                   <div>
                     <br></br>
@@ -317,15 +340,18 @@ export function UserProfile() {
               </div>
 
               {userListings.length > 0 ? (
-                <Footer style={footerStyle}>Copyright © Give & Take 2023</Footer>
+                <Footer style={footerStyle}>
+                  Copyright © Give & Take 2023
+                </Footer>
               ) : (
                 <Footer
                   style={{
-                    textAlign: 'center',
-                    color: '#fff',
-                    backgroundColor: '#303841',
-                    marginTop: 210
-                  }}>
+                    textAlign: "center",
+                    color: "#fff",
+                    backgroundColor: "#303841",
+                    marginTop: 210,
+                  }}
+                >
                   Copyright © Give & Take 2023
                 </Footer>
               )}

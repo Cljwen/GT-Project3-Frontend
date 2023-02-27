@@ -10,6 +10,7 @@ import {
   notification,
   ConfigProvider,
   Select,
+  Space,
 } from "antd";
 import { useAuth0 } from "@auth0/auth0-react";
 import MRT from "./MRT";
@@ -257,7 +258,7 @@ export function EditProfile() {
                             htmlType="submit"
                             onClick={handleSubmit}
                             style={{
-                              marginLeft: "200px",
+                              marginLeft: "180px",
                             }}
                           >
                             Save Changes
