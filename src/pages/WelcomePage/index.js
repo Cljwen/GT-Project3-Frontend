@@ -1,57 +1,68 @@
 // welcome page with short intro, login and sign up buttons
 
-import React from 'react';
-import { Layout, Space, Menu, Button, Card, Col, Row, Avatar, Carousel } from 'antd';
-import intropage from '../../assets/images/intropage.jpg';
-import logo from '../../assets/images/logo.png';
-import banner from '../../assets/images/banner.png';
-import rocket from '../../assets/images/rocket.png';
-import cloudinary from '../../assets/images/cloudinary.png';
-import postgres from '../../assets/images/postgres.png';
-import sendgrid from '../../assets/images/sendgrid.png';
-import react from '../../assets/images/react.png';
-import antdesign from '../../assets/images/ant-design.png';
+import React from "react";
+import {
+  Layout,
+  Space,
+  Menu,
+  Button,
+  Card,
+  Col,
+  Row,
+  Avatar,
+  Carousel,
+} from "antd";
+import intropage from "../../assets/images/intropage.jpg";
+import logo from "../../assets/images/logo.png";
+import banner from "../../assets/images/banner.png";
+import rocket from "../../assets/images/rocket.png";
+import cloudinary from "../../assets/images/cloudinary.png";
+import postgres from "../../assets/images/postgres.png";
+import sendgrid from "../../assets/images/sendgrid.png";
+import react from "../../assets/images/react.png";
+import antdesign from "../../assets/images/ant-design.png";
 
-import styles from './welcomepage.module.css';
-import { MessageOutlined, LikeOutlined } from '@ant-design/icons';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
+import styles from "./welcomepage.module.css";
+import { MessageOutlined, LikeOutlined } from "@ant-design/icons";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const { Meta } = Card;
 const { Header, Footer, Content } = Layout;
-const menuHeaders = ['About', 'Press', 'Contact'];
+const menuHeaders = ["About", "Press", "Contact"];
 
 const headerStyle = {
-  textAlign: 'center',
-  color: '#ff7e55',
+  textAlign: "center",
+  color: "#ff7e55",
   height: 80,
   paddingInline: 50,
-  lineHeight: '64px',
-  backgroundColor: '#eeeeee',
-  width: '100%'
+  lineHeight: "64px",
+  backgroundColor: "#eeeeee",
+  width: "100%",
 };
 const contentStyle = {
-  textAlign: 'center',
+  textAlign: "center",
   minHeight: 350,
-  lineHeight: '120px',
-  color: '#303841',
-  backgroundColor: '#eeeeee',
-  paddingTop: '40px'
+  lineHeight: "120px",
+  color: "#303841",
+  backgroundColor: "#eeeeee",
+  paddingTop: "40px",
 };
 const footerStyle = {
-  textAlign: 'center',
-  color: '#fff',
-  backgroundColor: '#303841'
+  textAlign: "center",
+  color: "#fff",
+  backgroundColor: "#303841",
 };
 export default function WelcomePage() {
   const [listingsReturned, setListingsReturned] = useState([]);
-  const { getAccessTokenSilently, user, loginWithRedirect, logout } = useAuth0();
+  const { getAccessTokenSilently, user, loginWithRedirect, logout } =
+    useAuth0();
   const [accessToken, setAccessToken] = useState(null);
 
   useEffect(() => {
     axios
-      .get('http://localhost:3000/')
+      .get("http://localhost:3000/")
       .then(function (response) {
         setListingsReturned(response.data);
         console.log(response.data);
@@ -74,16 +85,18 @@ export default function WelcomePage() {
     <Space
       direction="vertical"
       style={{
-        width: '100%'
+        width: "100%",
       }}
-      size={[0, 48]}>
+      size={[0, 48]}
+    >
       <Layout>
         <Header className={styles.header} style={headerStyle}>
           <Menu
             className={styles.navbar}
-            style={{ backgroundColor: '#eeeeee', color: '#ff7e55' }}
+            style={{ backgroundColor: "#eeeeee", color: "#ff7e55" }}
             mode="horizontal"
-            defaultSelectedKeys={['0']}>
+            defaultSelectedKeys={["0"]}
+          >
             <a href="/">
               <img height={60} src={logo} alt="logo" />
             </a>
@@ -99,8 +112,9 @@ export default function WelcomePage() {
             <Space wrap>
               <Button
                 type="primary"
-                style={{ backgroundColor: '#ff7e55', color: 'white' }}
-                onClick={loginWithRedirect}>
+                style={{ backgroundColor: "#ff7e55", color: "white" }}
+                onClick={loginWithRedirect}
+              >
                 Sign Up / Login
               </Button>
             </Space>
@@ -132,11 +146,15 @@ export default function WelcomePage() {
                         style={{
                           width: 300,
                           height: 300,
-                          objectFit: 'contain'
+                          objectFit: "contain",
                         }}
                       />
                     }
-                    actions={[<MessageOutlined key="message" />, <LikeOutlined key="like" />]}>
+                    actions={[
+                      <MessageOutlined key="message" />,
+                      <LikeOutlined key="like" />,
+                    ]}
+                  >
                     <Meta title={item_name} description={category} />
                   </Card>
                 </Col>
@@ -147,8 +165,9 @@ export default function WelcomePage() {
               <Button
                 className={styles.button}
                 type="primary"
-                style={{ backgroundColor: '#ff7e55', color: 'white' }}
-                onClick={loginWithRedirect}>
+                style={{ backgroundColor: "#ff7e55", color: "white" }}
+                onClick={loginWithRedirect}
+              >
                 Sign Up / Login
               </Button>
             </Space>
@@ -161,10 +180,11 @@ export default function WelcomePage() {
             <h2>We are supported by:</h2>
             <Carousel
               slidesToShow={3}
-              style={{ margin: '20px 50px' }}
+              style={{ margin: "20px 50px" }}
               autoplay
               autoplaySpeed={2000}
-              speed={500}>
+              speed={500}
+            >
               <div className={styles.slide}>
                 <img src={rocket} alt="rocket" />
               </div>
@@ -191,7 +211,7 @@ export default function WelcomePage() {
             <p className={styles.email}>hello@giveandtake.sg</p>
           </div>
         </Content>
-        <Footer style={footerStyle}>Copyright(c) Give and Take 2023. </Footer>
+        <Footer style={footerStyle}>Copyright © Give & Take 2023. </Footer>
       </Layout>
     </Space>
   );

@@ -76,7 +76,7 @@ export default function SearchResultsPage() {
               <Title level={2} style={{ marginLeft: 50 }}>
                 {numberOfResults
                   ? `${numberOfResults} ` +
-                    "results found for `" +
+                    "result(s) found for `" +
                     searchParams.get("search") +
                     "`"
                   : "results found for `" + searchParams.get("search") + "`"}
